@@ -55,9 +55,9 @@ const Collection = () => {
   }, [Category, subCategory]);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-20 border-t">
+    <div className="relative flex flex-col sm:flex-row gap-1 sm:gap-10 pt-20 border-t">
       {/* Filter Options */}
-      <div className="min-w-60">
+      <div className="min-w-60 sticky top-10 z-10 h-full ">
         <p
           onClick={() => setShowFilter(!showFilter)}
           className="my-2 text-xl flex items-center cursor-pointer gap-2"
