@@ -19,7 +19,7 @@ a.active hr {
   font-style: normal;
 }
 
-::webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
 }
 
