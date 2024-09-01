@@ -10,6 +10,7 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([]);
   const [Category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
+  const [sortType, setSortType] = useState("relevant");
 
   // Filter products based on category and subcategory
   const toggleCategory = (e) => {
@@ -45,19 +46,43 @@ const Collection = () => {
     setFilterProducts(productsCopy);
   };
 
+  const sortProduct = () => {
+    let filteredProductsCopy = filterProducts.slice();
+
+    switch (sortType) {
+      case "low-high":
+        setFilterProducts(
+          filteredProductsCopy.sort((a, b) => a.price - b.price)
+        );
+        break;
+
+      case "high-low":
+        setFilterProducts(
+          filteredProductsCopy.sort((a, b) => b.price - a.price)
+        );
+        break;
+      default:
+        applyFilter();
+        break;
+    }
+  };
+
   useEffect(() => {
     setFilterProducts(products);
   }, []);
 
   useEffect(() => {
     applyFilter();
-    console.log(filterProducts, Category, subCategory);
   }, [Category, subCategory]);
+
+  useEffect(() => {
+    sortProduct();
+  }, [sortType]);
 
   return (
     <div className="relative flex flex-col sm:flex-row gap-1 sm:gap-10 pt-20 border-t">
       {/* Filter Options */}
-      <div className="min-w-60 sticky top-10 z-10 h-full ">
+      <div className="min-w-60 sticky top-20 z-10 h-full ">
         <p
           onClick={() => setShowFilter(!showFilter)}
           className="my-2 text-xl flex items-center cursor-pointer gap-2"
@@ -150,7 +175,11 @@ const Collection = () => {
         <div className="flex justify-between text-base sm:text-2xl mb-4">
           <Title text1={"ALL"} text2={"COLLECTIONS"} />
           {/* here we implement product sorting logic */}
-          <select className="border border-gray-300 text-sm px-2" id="">
+          <select
+            onChange={(e) => setSortType(e.target.value)}
+            className="border border-gray-300 text-sm px-2"
+            id=""
+          >
             <option value="relevant">Sort by: Relevant</option>
             <option value="low-high">Sort by: Low to high</option>
             <option value="high-low">Sort by: High to Low</option>
