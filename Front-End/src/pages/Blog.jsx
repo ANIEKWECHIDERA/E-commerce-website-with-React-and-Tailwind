@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { blogAssets, blogData } from "../assets/blog/blogData";
 import NewsLetterBox from "../components/NewsLetterBox";
 import BlogTab from "../components/BlogTab";
@@ -6,6 +6,9 @@ import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 
 const Blog = () => {
+  const [visible, setVisibility] = useState(false);
+  const [visible2, setVisibility2] = useState(false);
+
   const { products } = useContext(ShopContext);
   return (
     <div>
@@ -31,66 +34,85 @@ const Blog = () => {
 
       <div className="md:flex md:flex-row-reverse md:justify-between items-start ">
         <div className="md:flex-col md:w-1/4 flex justify-between items-center py-8 md:sticky md:top-40">
-          <div className="w-full flex justify-center md:block md:mb-8">
-            <div className="w-[135px] md:w-full border py-2 px-1 rounded-md flex items-center justify-between">
-              <button className=" text-center w-full text-gray-900">
+          <div className="w-full flex flex-col justify-center md:block md:mb-8">
+            <div className="w-[135px] md:w-full border py-2 px-1 rounded-md flex items-center justify-between active:bg-slate-200">
+              <button
+                onClick={() => {
+                  setVisibility(!visible);
+                  setVisibility2(false);
+                }}
+                className=" text-center w-full text-gray-900"
+              >
                 Recent Articles
               </button>
               <img
-                className="w-2 md:hidden items-end"
+                className={`${
+                  visible ? "rotate-90" : ""
+                } w-2 md:hidden items-end`}
                 src={assets.dropdown_icon}
                 alt=""
               />
             </div>
             <div
-              className="hidden md:block mt-4 p-2 border rounded"
+              className={` ${
+                visible ? "" : "hidden"
+              } absolute top-[400px] bg-slate-50 md:static md:block mt-4 p-2 border rounded`}
               id="recent-articles-content"
             >
               <ul className="list-disc ml-4 text-gray-500 hover:text-gray-700">
-                <li className=" md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Latest Suit Trends
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Accessorizing Your Suit
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Blazer Styles for 2024
                 </li>
               </ul>
             </div>
           </div>
-          <div className="w-full flex justify-center md:block">
+          <div className="w-full flex flex-col items-center justify-center md:block">
             <div className=" w-[135px] md:w-full border py-2 px-1 rounded-md flex items-center justify-between">
-              <button className="text-center w-full text-gray-900">
+              <button
+                onClick={() => {
+                  setVisibility2(!visible2);
+                  setVisibility(false);
+                }}
+                className="text-center w-full text-gray-900"
+              >
                 Topics
               </button>
               <img
-                className="w-2 md:hidden items-end"
+                className={`${
+                  visible2 ? "rotate-90" : ""
+                } w-2 md:hidden items-end`}
                 src={assets.dropdown_icon}
                 alt=""
               />
             </div>
             <div
-              className="hidden md:block mt-4 p-2 border rounded"
-              id="topics-content"
+              className={` ${visible2 ? "" : "hidden"}
+               absolute top-[400px] right-4 bg-slate-50 md:static md:block mt-4 p-2 border rounded"
+              id="topics-content`}
             >
               <ul className="list-disc ml-4 ">
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Suit Styles & Trends
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Shirts & Ties
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Blazers & Jackets
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Shoes & Accessories
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Grooming & Maintenance
                 </li>
-                <li className="md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
+                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
                   Corporate Fashion Tips
                 </li>
               </ul>

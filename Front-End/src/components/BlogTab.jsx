@@ -4,7 +4,7 @@ const BlogTab = ({ img, title, description }) => {
   return (
     <div className=" mb-12 shadow-md p-8 md:hover:shadow-sm ">
       <div className="p-3 flex flex-col items-center sm:flex-row justify-between md:flex-col ">
-        <div className="md:overflow-hidden">
+        <div className="overflow-hidden">
           <img
             className="hover:scale-110 transition ease-in-out w-[240px] lg:w-80 object-cover"
             src={img}
