@@ -9,22 +9,29 @@ const Blog = () => {
   const { products } = useContext(ShopContext);
   return (
     <div>
-      <div className="w-full py-8">
-        <h1 className=" text-3xl text-center text-gray-700 font-medium">
+      <div className="sm:mt-32  w-full py-8">
+        <h1 className="prata-regular text-2xl sm:text-4xl text-center text-gray-700 font-medium">
           Welcome To Our Blog
         </h1>
       </div>
 
-      <div className="w-full border border-black flex items-center justify-around p-3 ">
-        <img className="w-20 " src={blogAssets.blog_bg} alt="blog_img" />
-        <h2 className="text-gray-800">
-          Explore the Latest <br /> Fashion Trends..
+      <div
+        className="w-full border border-black flex items-center justify-center p-3 bg-cover bg-center"
+        style={{ backgroundImage: `url(${blogAssets.blog_bg_black})` }}
+      >
+        <img
+          className="w-40 overflow-hidden  object-fit"
+          src={blogAssets.blog_bg}
+          alt="blog_img"
+        />
+        <h2 className=" prata-regular text-white lg:text-3xl">
+          Explore the Latest Fashion Trends..
         </h2>
       </div>
 
       <div className="md:flex md:flex-row-reverse md:justify-between items-start ">
         <div className="md:flex-col md:w-1/4 flex justify-between items-center py-8 md:sticky md:top-40">
-          <div className="w-full md:mb-8">
+          <div className="w-full flex justify-center md:block md:mb-8">
             <div className="w-[135px] md:w-full border py-2 px-1 rounded-md flex items-center justify-between">
               <button className=" text-center w-full text-gray-900">
                 Recent Articles
@@ -52,7 +59,7 @@ const Blog = () => {
               </ul>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full flex justify-center md:block">
             <div className=" w-[135px] md:w-full border py-2 px-1 rounded-md flex items-center justify-between">
               <button className="text-center w-full text-gray-900">
                 Topics
@@ -93,7 +100,7 @@ const Blog = () => {
 
         <hr className="w-full md:hidden" />
 
-        <div className="md:w-2/3 md:grid md:grid-cols-2 md:gap-20 ">
+        <div className="md:w-2/3 md:grid md:grid-cols-1 md:gap-6 md:gap-y-4 lg:grid-cols-2 ">
           <div className="mt-8">
             <div>
               {blogData.map((blog, index) => (

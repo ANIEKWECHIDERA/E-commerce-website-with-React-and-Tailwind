@@ -6,7 +6,7 @@ import { assets } from "../assets/assets";
 const Order = () => {
   const { products, currency } = useContext(ShopContext);
   return (
-    <div className="border-t pt-16">
+    <div className=" sm:mt-40 border-t pt-16">
       <div className="text-2xl">
         <Title text1={"MY"} text2={"ORDERS"} />
       </div>

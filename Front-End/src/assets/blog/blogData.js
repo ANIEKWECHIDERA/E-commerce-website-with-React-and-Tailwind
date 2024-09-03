@@ -2,9 +2,11 @@
 
 import img_1 from "../blog/img_1.jpeg";
 import blog_bg from "../blog/blog-bg.png";
+import blog_bg_black from "../blog/blog_bg_black.jpg";
 
 export const blogAssets = {
   blog_bg,
+  blog_bg_black,
 };
 
 export const blogData = [
