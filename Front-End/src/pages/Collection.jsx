@@ -178,12 +178,14 @@ const Collection = () => {
       </div>
       {/* the right side */}
       <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4">
-          <Title text1={"ALL"} text2={"COLLECTIONS"} />
+        <div className="flex flex-col sm:flex-col  md:flex-row justify-between sm:items-center text-base sm:text-2xl mb-4">
+          <div className="py-5 sm:text-s">
+            <Title text1={"ALL"} text2={"COLLECTIONS"} />
+          </div>
           {/* here we implement product sorting logic */}
           <select
             onChange={(e) => setSortType(e.target.value)}
-            className="border border-gray-300 text-sm px-2"
+            className="border border-gray-300 text-sm px-2 sm:h-10"
             id=""
           >
             <option value="relevant">Sort by: Relevant</option>

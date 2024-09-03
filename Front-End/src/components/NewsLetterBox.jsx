@@ -7,7 +7,7 @@ const NewsLetterBox = () => {
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center text-center">
-      <div className="w-full  text-left pr-10">
+      <div className="w-full  text-left md:pr-10 mb-10">
         <p className="text-2xl font-medium text-gray-700 ">
           Subscribe Now and Get 23% off!
         </p>
@@ -21,7 +21,7 @@ const NewsLetterBox = () => {
       </div>
       <form
         onSubmit={onSubmitHandler}
-        className="w-full sm:w-1/2 flex items-center gap-3 h-10 my-6 border pl-10"
+        className="w-full sm:w-1/2 flex items-center gap-3 h-10 my-6 border md:pl-10"
       >
         <input
           className="w-full sm:flex1 outline-none"
