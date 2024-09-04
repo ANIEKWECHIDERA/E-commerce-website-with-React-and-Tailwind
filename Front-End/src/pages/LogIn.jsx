@@ -48,16 +48,18 @@ const LogIn = () => {
             password: formData.password,
           }
         );
-        localStorage.setItem("token", response.data.token);
-        setTimeout(() => {
-          setLoading(false);
-          setSuccess("Logged in successfully!");
-        }, 2000);
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          setTimeout(() => {
+            setLoading(false);
+            setSuccess("Logged in successfully!");
+          }, 2000);
 
-        setTimeout(() => {
-          setLoading(false);
-          navigate("/collection");
-        }, 4000);
+          setTimeout(() => {
+            setLoading(false);
+            navigate("/collection");
+          }, 4000);
+        }
       }
     } catch (error) {
       setLoading(false);
