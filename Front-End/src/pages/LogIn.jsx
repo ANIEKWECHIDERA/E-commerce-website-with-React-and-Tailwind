@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const [currentState, setCurrentState] = useState("Sign Up");
@@ -14,11 +15,13 @@ const LogIn = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     try {
       if (currentState === "Sign Up") {
@@ -27,6 +30,14 @@ const LogIn = () => {
           "http://localhost:5000/api/auth/register",
           formData
         );
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess("Account created successfully!");
+        }, 2000);
+
+        setTimeout(() => {
+          navigate("/"); // Redirect to the home page or the intended page
+        }, 4000);
       } else {
         //implement login logic here
         const response = await axios.post(
@@ -38,9 +49,18 @@ const LogIn = () => {
           }
         );
         localStorage.setItem("token", response.data.token);
-        setSuccess("Logged in successfully");
+        setTimeout(() => {
+          setLoading(false);
+          setSuccess("Logged in successfully!");
+        }, 2000);
+
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/collection");
+        }, 4000);
       }
     } catch (error) {
+      setLoading(false);
       setError(
         error.response.data.message ||
           "An error has occurred, please refresh the page"
@@ -61,13 +81,18 @@ const LogIn = () => {
         <p className="prata-regular text-3xl">{currentState}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
       </div>
-
+      {loading && (
+        <p>
+          {currentState === "Sign Up"
+            ? "Creating your Account..."
+            : "Logging you in..."}
+        </p>
+      )}{" "}
+      {/* Loading animation */}
       {/* Display error message */}
       {error && <p className="text-red-500">{error}</p>}
-
       {/* Display success message */}
       {success && <p className="text-green-500">{success}</p>}
-
       {currentState === "login" ? (
         ""
       ) : (
@@ -84,7 +109,6 @@ const LogIn = () => {
           />
         </div>
       )}
-
       {currentState === "login" ? (
         ""
       ) : (
@@ -101,7 +125,6 @@ const LogIn = () => {
           />
         </div>
       )}
-
       <div className="text-left w-full">
         <label htmlFor="Email Address">Email Address</label>
 
@@ -114,7 +137,6 @@ const LogIn = () => {
           placeholder="Enter Email Address (Optional)"
         />
       </div>
-
       <div className="text-left w-full">
         <label htmlFor="Phone Number">Phone Number</label>
 
@@ -128,7 +150,6 @@ const LogIn = () => {
           required
         />
       </div>
-
       <div className="text-left w-full">
         <label htmlFor="Password">Password</label>
 
@@ -142,7 +163,6 @@ const LogIn = () => {
           required
         />
       </div>
-
       <div className="w-full flex justify-between text-sm mt-[8px]">
         {currentState === "login" ? (
           <p className="cursor-pointer text-xs hover:text-red-400 underline">
@@ -168,7 +188,11 @@ const LogIn = () => {
           </p>
         )}
       </div>
-      <button className="text-white font-light px-8 py-2 mt-4 tracking-wider bg-black hover:bg-slate-500">
+      <button
+        type="submit"
+        disabled={loading}
+        className="text-white font-light px-8 py-2 mt-4 tracking-wider bg-black hover:bg-slate-500"
+      >
         {/* design black button */}
 
         {currentState === "login" ? "Login" : "Create an Account"}
