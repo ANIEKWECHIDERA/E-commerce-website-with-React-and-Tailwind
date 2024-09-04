@@ -22,14 +22,18 @@ const LogIn = () => {
     setError("");
     setSuccess("");
     setLoading(true);
+    const generateRandomEmail = () => {
+      return `user_${Math.random().toString(36).slice(2, 11)}@example.com`;
+    };
 
     try {
       if (currentState === "Sign Up") {
         //implement registration logic here
         const response = await axios.post(
           "http://localhost:5000/api/auth/register",
-          formData
+          { ...formData, email: formData.email || generateRandomEmail() }
         );
+        localStorage.setItem("token", response.data.token);
         setTimeout(() => {
           setLoading(false);
           setSuccess("Account created successfully!");
@@ -62,11 +66,13 @@ const LogIn = () => {
         }
       }
     } catch (error) {
-      setLoading(false);
-      setError(
-        error.response.data.message ||
-          "An error has occurred, please refresh the page"
-      );
+      setTimeout(() => {
+        setLoading(false);
+        setError(
+          error.response.data.message ||
+            "An error has occurred, please refresh the page"
+        );
+      }, 1000);
     }
   };
 
@@ -93,6 +99,7 @@ const LogIn = () => {
       {/* Loading animation */}
       {/* Display error message */}
       {error && <p className="text-red-500">{error}</p>}
+      {loading && <div className="loader"></div>}
       {/* Display success message */}
       {success && <p className="text-green-500">{success}</p>}
       {currentState === "login" ? (
@@ -193,10 +200,8 @@ const LogIn = () => {
       <button
         type="submit"
         disabled={loading}
-        className="text-white font-light px-8 py-2 mt-4 tracking-wider bg-black hover:bg-slate-500"
+        className="text-white font-light px-8 py-2 mt-4 tracking-wider bg-black  active:bg-slate-500 relative"
       >
-        {/* design black button */}
-
         {currentState === "login" ? "Login" : "Create an Account"}
       </button>
     </form>

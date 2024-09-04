@@ -29,3 +29,49 @@ a.active hr {
     color: white;
   }
 }
+
+/* Loader animation */
+.loader {
+  width: 7px;
+  height: 7px; /* Added height for better visibility */
+  border-radius: 50%;
+  display: inline-block;
+  animation: l5 1s infinite linear alternate;
+}
+
+@keyframes l5 {
+  0% {
+    box-shadow: 20px 0 #000, -20px 0 #0002;
+    background: #000;
+  }
+  33% {
+    box-shadow: 20px 0 #000, -20px 0 #0002;
+    background: #0002;
+  }
+  66% {
+    box-shadow: 20px 0 #0002, -20px 0 #000;
+    background: #0002;
+  }
+  100% {
+    box-shadow: 20px 0 #0002, -20px 0 #000;
+    background: #000;
+  }
+}
+
+/* Button styles */
+.button-container {
+  position: relative;
+  display: inline-flex;
+}
+
+.button-container .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.button-container button {
+  position: relative;
+  padding: 10px 20px; /* Adjust padding as needed */
+}
