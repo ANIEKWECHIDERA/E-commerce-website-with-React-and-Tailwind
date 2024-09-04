@@ -23,7 +23,9 @@ const LogIn = () => {
     setSuccess("");
     setLoading(true);
     const generateRandomEmail = () => {
-      return `user_${Math.random().toString(36).slice(2, 11)}@example.com`;
+      return `user_${Math.random()
+        .toString(36)
+        .slice(2, 11)}@mophixconcept.com`;
     };
 
     try {
