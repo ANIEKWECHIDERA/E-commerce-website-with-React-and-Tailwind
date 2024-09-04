@@ -2,7 +2,7 @@
 
 // import required files and user object model
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 //here implement logic for registering a new user

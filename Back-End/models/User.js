@@ -2,7 +2,7 @@
 //import requred dependencies
 
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 //define user schema object
 
@@ -46,6 +46,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model("User, userSchema");
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
