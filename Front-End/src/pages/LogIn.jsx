@@ -1,28 +1,84 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const LogIn = () => {
   const [currentState, setCurrentState] = useState("Sign Up");
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setError("");
+    setSuccess("");
+
+    try {
+      if (currentState === "Sign Up") {
+        //implement registration logic here
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/register",
+          formData
+        );
+      } else {
+        //implement login logic here
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/login",
+          {
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            password: formData.password,
+          }
+        );
+        localStorage.setItem("token", response.data.token);
+        setSuccess("Logged in successfully");
+      }
+    } catch (error) {
+      setError(
+        error.response.data.message ||
+          "An error has occurred, please refresh the page"
+      );
+    }
+  };
+
+  const onchangeHandler = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   return (
     <form
       onSubmit={onSubmitHandler}
-      className=" shadow-lg pb-5 px-4 flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
+      className=" shadow-lg pb-5 px-4 flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-20 sm:mt-36 gap-4 text-gray-800"
     >
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className="prata-regular text-3xl">{currentState}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
       </div>
+
+      {/* Display error message */}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* Display success message */}
+      {success && <p className="text-green-500">{success}</p>}
+
       {currentState === "login" ? (
         ""
       ) : (
         <div className="text-left w-full">
           <label htmlFor="First Name">First Name</label>
           <input
-            className="w-full px-3 py-2 mt-2 border border-grray-800"
+            className="w-full px-3 py-2 mt-2 border border-gray-800"
             type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={onchangeHandler}
             placeholder="Enter First Name"
             required
           />
@@ -35,8 +91,11 @@ const LogIn = () => {
         <div className="text-left w-full">
           <label htmlFor="First Name">Last Name</label>
           <input
-            className="w-full px-3 py-2 mt-2 border border-grray-800"
+            className="w-full px-3 py-2 mt-2 border border-gray-800"
             type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={onchangeHandler}
             placeholder="Enter Last Name"
             required
           />
@@ -47,55 +106,52 @@ const LogIn = () => {
         <label htmlFor="Email Address">Email Address</label>
 
         <input
-          className="w-full px-3 py-2 mt-2 border border-grray-800"
+          className="w-full px-3 py-2 mt-2 border border-gray-800"
           type="email"
-          placeholder="Enter Email Address"
-          required
+          name="email"
+          value={formData.email}
+          onChange={onchangeHandler}
+          placeholder="Enter Email Address (Optional)"
         />
       </div>
 
-      {currentState === "login" ? (
-        ""
-      ) : (
-        <div className="text-left w-full">
-          <label htmlFor="Phone Number">Phone Number</label>
+      <div className="text-left w-full">
+        <label htmlFor="Phone Number">Phone Number</label>
 
-          <input
-            className="w-full px-3 py-2 mt-2 border border-grray-800"
-            type="email"
-            placeholder="Enter Phone Number"
-            required
-          />
-        </div>
-      )}
+        <input
+          className="w-full px-3 py-2 mt-2 border border-gray-800"
+          type="number"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={onchangeHandler}
+          placeholder="Enter Phone Number"
+          required
+        />
+      </div>
 
       <div className="text-left w-full">
         <label htmlFor="Password">Password</label>
 
         <input
-          className="w-full px-3 py-2 mt-2 border border-grray-800"
+          className="w-full px-3 py-2 mt-2 border border-gray-800"
           type="password"
+          name="password"
+          value={formData.password}
+          onChange={onchangeHandler}
           placeholder="Enter Password"
           required
         />
       </div>
-      {currentState === "login" ? (
-        ""
-      ) : (
-        <div className="text-left w-full">
-          <label htmlFor="Confirm Password">Confirm Password</label>{" "}
-          <input
-            className=" w-full px-3 py-2 mt-2 border border-grray-800"
-            type="password"
-            placeholder="Enter Password"
-            required
-          />
-        </div>
-      )}
+
       <div className="w-full flex justify-between text-sm mt-[8px]">
-        <p className="cursor-pointer text-xs hover:text-red-400 underline">
-          Forgot Password?
-        </p>
+        {currentState === "login" ? (
+          <p className="cursor-pointer text-xs hover:text-red-400 underline">
+            Forgot Password?
+          </p>
+        ) : (
+          ""
+        )}
+
         {currentState === "login" ? (
           <p
             onClick={() => setCurrentState("Sign Up")}

@@ -9,7 +9,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Use CORS middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow only your frontend to access the backend
+    methods: ["GET", "POST"], // Specify allowed methods
+    credentials: true, // Allow cookies if needed
+  })
+);
+app.options("*", cors());
 app.use(express.json());
 
 //first connect to mongodb
