@@ -75,3 +75,9 @@ a.active hr {
   position: relative;
   padding: 10px 20px; /* Adjust padding as needed */
 }
+
+.active-Account-info {
+  color: #000;
+
+  text-decoration: underline;
+}
