@@ -1,11 +1,27 @@
 import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 
 const NavBar = () => {
   const [visible, setVisible] = useState(false);
   const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const navigate = useNavigate('/orders');
+
+  async function logout() {
+    try {
+      // Remove the token from local storage
+      localStorage.removeItem('token');
+
+      // Redirect to login page or home page
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+  const handleNavigation = () => {
+    navigate('/orders'); // Redirect to the orders page
+  };
 
   return (
     <div className="relative  mb-24">
@@ -72,8 +88,19 @@ const NavBar = () => {
                       My Profile{' '}
                     </p>
                   </Link>
-                  <p className="cursor-pointer hover:text-black"> Orders</p>
-                  <p className="cursor-pointer hover:text-black">Log-Out </p>
+                  <p
+                    onClick={handleNavigation}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    {' '}
+                    Orders
+                  </p>
+                  <p
+                    onClick={logout}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    Log-Out{' '}
+                  </p>
                 </div>
               </div>
             </div>

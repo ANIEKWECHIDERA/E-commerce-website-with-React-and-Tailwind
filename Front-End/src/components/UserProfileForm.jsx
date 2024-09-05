@@ -46,11 +46,14 @@ const UserProfileForm = () => {
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setLoading(false);
-      setSuccessMessage(response.data.message);
-      console.log(`response: ${response.data.user}`);
+
+      setTimeout(() => {
+        setLoading(false);
+        setSuccessMessage(response.data.message);
+      }, 2000);
     } catch (error) {
       console.error(error);
+
       setLoading(false);
       setErrorMessage(
         error.response?.data?.message || 'Error updating profile'
