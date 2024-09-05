@@ -20,7 +20,7 @@ const UserProfileForm = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        console.log(`token: ${token}`);
+
         const response = await axios.get('http://localhost:5000/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
