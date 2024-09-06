@@ -36,7 +36,7 @@ const Cart = () => {
       </div>
       <div className="">
         {isCartEmpty ? (
-          <p className="text-bold text-3xl text-center text-red-500">
+          <p className="text-bold md:text-3xl mt-24 text-center text-red-500">
             Your cart is empty.
           </p> // Message if cart is empty
         ) : (
