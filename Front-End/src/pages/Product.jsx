@@ -3,8 +3,13 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/cart");
+  };
   const { productId } = useParams();
   const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
@@ -83,6 +88,12 @@ const Product = () => {
             className="bg-black  text-white px-8 py-3 text-sm active:bg-orange-500"
           >
             ADD TO CART
+          </button>
+          <button
+            onClick={handleNavigate}
+            className="bg-slate-500 text-white text-sm my-5 sm:mx-8 px-8 py-3"
+          >
+            VIEW CART
           </button>
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
