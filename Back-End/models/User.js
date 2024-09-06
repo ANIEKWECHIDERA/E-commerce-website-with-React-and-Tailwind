@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  cart: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: { type: Number, default: 1 },
+    },
+  ],
 });
 
 //hashing the pass word to ensure security
