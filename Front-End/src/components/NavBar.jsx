@@ -1,9 +1,31 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import { assets } from '../assets/assets';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 
 const NavBar = () => {
+  const [user, setUser] = useState({
+    lastName: '',
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await axios.get('http://localhost:5000/api/profile', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data);
+      } catch (error) {
+        console.error(error);
+        setErrorMessage('Error fetching profile');
+      }
+    };
+    fetchProfile();
+  }, []);
+
   const [visible, setVisible] = useState(false);
   const { setShowSearch, getCartCount } = useContext(ShopContext);
   const navigate = useNavigate('/orders');
@@ -22,6 +44,8 @@ const NavBar = () => {
   const handleNavigation = () => {
     navigate('/orders'); // Redirect to the orders page
   };
+
+  const isAuthenticated = localStorage.getItem('token');
 
   return (
     <div className="relative  mb-24">
@@ -74,33 +98,52 @@ const NavBar = () => {
             />
 
             <div className="group relative">
-              <Link to="/login">
-                <img
-                  src={assets.profile_icon}
-                  alt="Profile Icon"
-                  className="w-5 cursor-pointer"
-                />
-              </Link>
-              <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-                <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                  <Link to={'/UserProfile'}>
-                    <p className="cursor-pointer hover:text-black">
-                      My Profile{' '}
+              <img
+                src={assets.profile_icon}
+                alt="Profile Icon"
+                className="w-5 cursor-pointer"
+              />
+
+              <div className=" group-hover:block hidden  absolute dropdown-menu right-0 pt-4">
+                <div className="justify-items-center flex flex-col gap-2 w-40 py-3 px-3 bg-slate-100 text-gray-500 rounded">
+                  <div>
+                    {isAuthenticated && (
+                      <p className="text-black underline font-semibold">
+                        {' '}
+                        Hello, {user.lastName}{' '}
+                      </p>
+                    )}
+                  </div>
+                  {isAuthenticated && (
+                    <Link to={'/UserProfile'}>
+                      <p className="cursor-pointer hover:text-black">
+                        My Profile{' '}
+                      </p>
+                    </Link>
+                  )}
+                  {isAuthenticated && (
+                    <p
+                      onClick={handleNavigation}
+                      className="cursor-pointer hover:text-black"
+                    >
+                      {' '}
+                      Orders
                     </p>
-                  </Link>
-                  <p
-                    onClick={handleNavigation}
-                    className="cursor-pointer hover:text-black"
-                  >
-                    {' '}
-                    Orders
-                  </p>
-                  <p
-                    onClick={logout}
-                    className="cursor-pointer hover:text-black"
-                  >
-                    Log-Out{' '}
-                  </p>
+                  )}
+                  {isAuthenticated ? (
+                    <p
+                      onClick={logout}
+                      className="cursor-pointer hover:text-black"
+                    >
+                      Log-Out{' '}
+                    </p>
+                  ) : (
+                    <Link to="/login">
+                      <p className="cursor-pointer hover:text-black text-center ">
+                        Login / Sign up{' '}
+                      </p>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -110,9 +153,11 @@ const NavBar = () => {
                 alt="Cart Icon"
                 className="w-5 min-w-5"
               />
-              <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
-                {getCartCount()}
-              </p>
+              {isAuthenticated && (
+                <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
+                  {getCartCount()}
+                </p>
+              )}
             </Link>
             <img
               src={assets.menu_icon}
