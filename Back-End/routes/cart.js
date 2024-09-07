@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const User = require("../models/User");
+const Product = require("../models/product");
 
 //add products to cart
 router.post("/add", auth, async (req, res) => {
@@ -11,19 +12,27 @@ router.post("/add", auth, async (req, res) => {
     const userId = req.user.userId;
     const { productId, quantity } = req.body;
 
+    if (!productId || quantity < 0) {
+      return res.status(400).json({ message: "Invalid input" });
+    }
+
     let user = await User.findById(userId);
     let itemIndex = user.cart.findIndex((p) => p.productId == productId);
 
     if (itemIndex > -1) {
       let productItem = user.cart[itemIndex];
-      productItem.quantity += quantity;
+      productItem.quantity = quantity;
       user.cart[itemIndex] = productItem;
     } else {
       user.cart.push({ productId, quantity });
     }
     user = await user.save();
     return res.status(200).send(user.cart);
-  } catch (error) {}
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
 });
 
 //get product from cart
@@ -33,7 +42,9 @@ router.get("/", auth, async (req, res) => {
     let user = await User.findById(userId).populate("cart.productId");
     res.status(200).send(user.cart);
   } catch (err) {
-    res.status(500).send("Something went wrong");
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: err.message });
   }
 });
 
