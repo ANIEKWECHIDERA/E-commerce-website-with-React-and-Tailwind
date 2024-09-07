@@ -78,10 +78,10 @@ router.put("/update", auth, async (req, res) => {
 router.delete("/remove", auth, async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { productId } = req.body;
+    const { cartId } = req.body;
 
     let user = await User.findById(userId);
-    user.cart = user.cart.filter((item) => item.productId != productId);
+    user.cart = user.cart.filter((item) => item._id.toString() != cartId);
 
     user = await user.save();
     return res.status(200).send(user.cart);

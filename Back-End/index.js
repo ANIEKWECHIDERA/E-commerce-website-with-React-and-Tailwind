@@ -29,7 +29,9 @@ mongoose
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const cartRoutes = require("./routes/cart");
+const productRoute = require("./routes/productRoute");
 
+app.use("/api/products", productRoute);
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/cart", cartRoutes);

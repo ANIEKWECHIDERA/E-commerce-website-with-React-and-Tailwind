@@ -1,5 +1,6 @@
 "use strict";
-//import requred dependencies
+
+//import required dependencies
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -36,8 +37,14 @@ const userSchema = new mongoose.Schema({
   },
   cart: [
     {
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-      quantity: { type: Number, default: 1 },
+      productId: {
+        type: String,
+        required: true,
+        ref: "Product",
+      },
+      quantity: { type: Number, required: true, default: 1 },
+      price: { type: Number },
+      size: { type: String },
     },
   ],
 });
