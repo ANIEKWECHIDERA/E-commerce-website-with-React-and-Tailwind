@@ -49,7 +49,7 @@ const LogIn = () => {
         const response = await axios.post(
           "http://localhost:5000/api/auth/login",
           {
-            email: formData.email,
+            email: formData.email || null,
             phoneNumber: formData.phoneNumber,
             password: formData.password,
           }
