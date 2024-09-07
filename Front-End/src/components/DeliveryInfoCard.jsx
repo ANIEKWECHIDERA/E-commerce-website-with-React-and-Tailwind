@@ -4,8 +4,8 @@ const DeliveryInfoCard = ({ userInfo, onEdit, onDelete }) => {
   const { name, address, phoneNumber } = userInfo;
 
   return (
-    <div className=" p-4 bg-white border w-full mt-10 max-w-md m-auto">
-      <div className="flex flex-col w-80 py-3 px-7 items-start text-gray-800">
+    <div className=" p-4 bg-white border sm:w-full mt-10 max-w-md m-auto">
+      <div className="flex flex-col sm:w-80 py-3 px-7 items-start text-gray-800">
         <h2 className="text-xl max-  mb-2">{name}</h2>
         <p className="text-sm mb-1">{address}</p>
         <p className="text-sm mb-3">{phoneNumber}</p>

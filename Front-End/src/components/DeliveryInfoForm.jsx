@@ -32,15 +32,17 @@ const DeliveryInfoForm = () => {
   };
   return (
     <div className=" shadow-lg pb-5 px-4 flex flex-col items-center w-[90%] m-auto  gap-4 text-gray-800">
-      <div className="items-center  text-left mt-3">
-        <div className="flex justify-between items-center">
-          <p className=" text-3xl">Delivery Info</p>
-          <button className=" bg-black text-white py-2 px-4  hover:bg-black">
+      <div className="items-center sm:text-left mt-3">
+        <div className="sm:flex justify-between items-center">
+          <p className="mb-5 sm:mb-0 text-center sm:text-left text-3xl">
+            Delivery Info
+          </p>
+          <button className="flex justify-center items-center bg-black text-white py-2 px-4  hover:bg-black">
             Add New Address
           </button>
         </div>
         <hr className="w-full my-5" />
-        <div className="grid grid-cols-2 gap-10 pb-20">
+        <div className="sm:grid sm:grid-cols-2 gap-10 pb-20">
           {userInfo.map((user, index) => (
             <DeliveryInfoCard
               key={index}
