@@ -29,9 +29,11 @@ const UserProfile = () => {
   return (
     <div>
       <div>
-        <div className=" sm:mt-40 text-center pt-10 border-t"></div>
-        <div className="flex w-full justify-around ">
-          <div className=" flex mt-10  h-full  sticky top-56 flex-col items-start w-[230px] text-left">
+        <div className=" sm:mt-40 text-right pt-10 border-t">
+          <button>more..</button>
+        </div>
+        <div className="sm:flex w-full justify-around ">
+          <div className="hidden sm:flex mt-10  h-full sm:sticky top-56 flex-col items-start w-[230px] text-left">
             <div className="flex border-b justify-between px-4 mb-4">
               <div className="px-4">
                 <img className="w-5" src={assets.profile_icon} alt="" />
@@ -98,7 +100,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className=" items-center border-l w-[70%]">
+          <div className=" items-center border-l sm:w-[70%]">
             {renderContent()}
           </div>
         </div>
