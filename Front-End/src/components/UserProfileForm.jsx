@@ -65,10 +65,10 @@ const UserProfileForm = () => {
     <div>
       <form
         onSubmit={onSubmitHandler}
-        className="profile-form shadow-lg pb-5 px-4 flex flex-col items-center w-[90%] sm:max-w-96 m-auto  gap-4 text-gray-800"
+        className="profile-form shadow-lg pb-5 px-4 flex flex-col items-center sm:w-[90%] sm:max-w-96 m-auto  gap-4 text-gray-800"
       >
         <div className="items-center  text-center mt-3">
-          <p className=" text-3xl">Update Account Info</p>
+          <p className="text-xl sm:text-3xl">Update Account Info</p>
           {successMessage && (
             <p className="success-message text-center text-green-500">
               {successMessage}
