@@ -43,7 +43,7 @@ const OrderHistory = () => {
         <p className=" text-3xl">My Orders</p>
       </div>
       <hr className="w-full my-5" />
-      <div className="w-[80%]">
+      <div className="sm:w-[80%]">
         {orders.map((order, index) => (
           <OrderHistoryCard key={index} order={order} />
         ))}
