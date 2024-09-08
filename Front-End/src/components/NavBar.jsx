@@ -147,7 +147,7 @@ const NavBar = () => {
                 </div>
               </div>
             </div>
-            <Link to="/cart" className="relative">
+            <Link to="/cart" className="hidden sm:block relative">
               <img
                 src={assets.cart_icon}
                 alt="Cart Icon"
@@ -233,6 +233,51 @@ const NavBar = () => {
               >
                 Contact
               </NavLink>
+              <NavLink
+                onClick={() => {
+                  setVisible(false);
+                }}
+                className="py-2 pl-5 border "
+                to="/cart"
+              >
+                Cart
+              </NavLink>
+              {isAuthenticated && (
+                <NavLink
+                  onClick={() => {
+                    setVisible(false);
+                  }}
+                  className="py-2 pl-5 border "
+                  to="/UserProfile"
+                >
+                  My Profile
+                </NavLink>
+              )}
+
+              {isAuthenticated ? (
+                <p
+                  onClick={() => {
+                    setVisible(false);
+                    {
+                      logout;
+                    }
+                  }}
+                  className="cursor-pointer hover:text-black"
+                >
+                  Log-Out{' '}
+                </p>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => {
+                    setVisible(false);
+                  }}
+                >
+                  <p className="cursor-pointer sm:hover:text-black text-center bg-black text-gray-100 ">
+                    Login / Sign up{' '}
+                  </p>
+                </Link>
+              )}
             </div>
           </div>
         </div>
