@@ -47,6 +47,7 @@ const userSchema = new mongoose.Schema({
       size: { type: String },
     },
   ],
+  cartCount: { type: Number, default: 0 },
 });
 
 //hashing the pass word to ensure security
