@@ -15,6 +15,7 @@ const ShopContextProvider = (Props) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,49 +25,53 @@ const ShopContextProvider = (Props) => {
         setProducts(data); // Store products in state
       } catch (error) {
         console.error("Error fetching products:", error);
-        toast.error("Failed to fetch products");
       }
     };
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/cartCount",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+  const fetchCartCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/cartCount", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-        setCartCount(response.data.count);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-        toast.error("Failed to fetch cart");
-      }
-    };
-    fetchCart();
-  }, []);
+      setCartCount(response.data.count);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  };
 
   useEffect(() => {
-    // This useEffect runs when cartItems is updated
-    const calculateCartCount = () => {
-      let totalCount = 0;
+    fetchCartCount();
+  }, [cartItems]);
 
-      for (const itemId in cartItems) {
-        const sizes = cartItems[itemId];
-        for (const size in sizes) {
-          totalCount += sizes[size];
-        }
-      }
-      setCartCount(totalCount);
-    };
+  const fetchCartItems = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/cart", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const fetchedCartItems = response.data || [];
+      setCartItems(fetchedCartItems);
 
-    calculateCartCount();
+      // Calculate total amount
+      const amount = fetchedCartItems.reduce((acc, item) => {
+        return acc + item.quantity * (item.productId?.price || 0);
+      }, 0);
+
+      setTotalAmount(amount);
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartCount();
+    fetchCartItems();
   }, [cartItems]);
 
   const addToCart = async (itemId, size) => {
@@ -121,7 +126,6 @@ const ShopContextProvider = (Props) => {
       if (error.response) {
         toast.error(error.response.data.message || "Error adding item to cart");
       } else {
-        toast.error("Something went wrong");
       }
     }
   };
@@ -168,7 +172,6 @@ const ShopContextProvider = (Props) => {
       if (error.response) {
         toast.error(error.response.data.message || "Error updating quantity");
       } else {
-        toast.error("Something went wrong");
       }
     }
   };
@@ -210,6 +213,9 @@ const ShopContextProvider = (Props) => {
     getCartAmount,
     navigate,
     cartCount,
+    totalAmount,
+    fetchCartCount,
+    fetchCartItems,
   };
 
   return (

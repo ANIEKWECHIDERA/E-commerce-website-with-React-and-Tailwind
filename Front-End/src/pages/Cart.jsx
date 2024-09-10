@@ -9,29 +9,10 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const currency = "$";
   const navigate = useNavigate();
-  // const { products, currency, cartItems, updateQuantity, navigate } =
-  //   useContext(ShopContext);
+  const { fetchCartCount } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
-
-  // useEffect(() => {
-  //   const tempData = [];
-
-  //   for (const items in cartItems) {
-  //     for (const item in cartItems[items]) {
-  //       if (cartItems[items][item] > 0) {
-  //         tempData.push({
-  //           _id: items,
-  //           size: item,
-  //           quantity: cartItems[items][item],
-  //         });
-  //       }
-  //     }
-  //   }
-  //   setCartData(tempData);
-  //   setIsCartEmpty(tempData.length === 0);
-  // }, [cartItems]);
 
   const inputRefs = useRef({});
 
@@ -81,6 +62,7 @@ const Cart = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      await fetchCartCount();
       setCartData(response.data);
       console.log(response.data);
       setIsCartEmpty(response.data.length === 0);
@@ -105,7 +87,7 @@ const Cart = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      await fetchCartCount();
       setCartData(response.data);
       setIsCartEmpty(response.data.length === 0);
 
