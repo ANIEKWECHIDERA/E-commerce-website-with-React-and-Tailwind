@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-// import { products } from "../assets/assets";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -175,13 +175,6 @@ const ShopContextProvider = (Props) => {
       }
     }
   };
-
-  // const updateQuantity = async (itemId, size, quantity) => {
-  //   let cartData = structuredClone(cartItems);
-  //   cartData[itemId][size] = quantity;
-
-  //   setCartItems(cartData);
-  // };
 
   const getCartAmount = () => {
     let totalAmount = 0;

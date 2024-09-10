@@ -152,15 +152,6 @@ const Cart = () => {
                   </div>
                 </div>
                 <input
-                  // onChange={(e) =>
-                  //   e.target.value === "" || e.target.value === "0"
-                  //     ? null
-                  //     : updateQuantity(
-                  //         item._id,
-                  //         item.size,
-                  //         Number(e.target.value)
-                  //       )
-                  // }
                   ref={inputRef}
                   onChange={(e) => {
                     const value = Number(e.target.value);

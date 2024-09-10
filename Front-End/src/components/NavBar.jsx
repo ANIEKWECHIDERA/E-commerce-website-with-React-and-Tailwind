@@ -97,6 +97,18 @@ const NavBar = () => {
               className="w-5 cursor-pointer"
             />
 
+            <Link to="/cart" className="hidden sm:block relative">
+              <img
+                src={assets.cart_icon}
+                alt="Cart Icon"
+                className="w-5 min-w-5"
+              />
+              {isAuthenticated && (
+                <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
+                  {cartCount}
+                </p>
+              )}
+            </Link>
             <div className="group relative">
               <img
                 src={assets.profile_icon}
@@ -117,7 +129,7 @@ const NavBar = () => {
                   {isAuthenticated && (
                     <Link to={'/UserProfile'}>
                       <p className="cursor-pointer hover:text-black">
-                        My Profile{' '}
+                        My Account{' '}
                       </p>
                     </Link>
                   )}
@@ -147,18 +159,6 @@ const NavBar = () => {
                 </div>
               </div>
             </div>
-            <Link to="/cart" className="hidden sm:block relative">
-              <img
-                src={assets.cart_icon}
-                alt="Cart Icon"
-                className="w-5 min-w-5"
-              />
-              {isAuthenticated && (
-                <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
-                  {cartCount}
-                </p>
-              )}
-            </Link>
             <img
               src={assets.menu_icon}
               alt="Menu Icon"
@@ -250,7 +250,7 @@ const NavBar = () => {
                   className="py-2 pl-5 border "
                   to="/UserProfile"
                 >
-                  My Profile
+                  My Account
                 </NavLink>
               )}
 

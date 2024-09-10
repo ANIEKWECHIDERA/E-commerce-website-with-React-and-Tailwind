@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import UserProfileForm from "../components/UserProfileForm";
-import DeliveryInfoForm from "../components/DeliveryInfoForm";
+import DeliveryInfoForm from "../components/DeliveryInfo";
 import OrderHistory from "../components/OrderHistory";
 import SavedItems from "../components/SavedItems";
 import DeleteAccount from "../components/DeleteAccount";
@@ -25,6 +25,10 @@ const UserProfile = () => {
         return <UserProfileForm />;
     }
   };
+
+  useEffect(() => {
+    setActiveSection("profile");
+  }, []);
 
   return (
     <div>

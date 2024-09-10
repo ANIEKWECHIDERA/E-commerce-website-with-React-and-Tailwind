@@ -1,5 +1,5 @@
 import React from 'react';
-import DeliveryInfoCard from '../components/DeliveryInfoCard';
+import DeliveryInfoCard from './DeliveryInfoCard';
 
 const DeliveryInfoForm = () => {
   const userInfo = [
