@@ -29,10 +29,10 @@ const UserProfile = () => {
   return (
     <div>
       <div>
-        <div className=" sm:mt-40 text-right pt-10 border-t">
+        <div className="sm:hidden sm:mt-40 text-right pt-10 border-t">
           <button>more..</button>
         </div>
-        <div className="sm:flex w-full justify-around ">
+        <div className="sm:mt-40 sm:flex w-full justify-around ">
           <div className="hidden sm:flex mt-10  h-full sm:sticky top-56 flex-col items-start w-[230px] text-left">
             <div className="flex border-b justify-between px-4 mb-4">
               <div className="px-4">
