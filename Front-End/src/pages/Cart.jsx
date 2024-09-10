@@ -192,7 +192,7 @@ const Cart = () => {
               {" "}
               <button
                 onClick={() => navigate("/place-order")}
-                className="bg-black text-white text-sm my-8 px-8 py-3"
+                className="w-full text-center bg-black text-white text-sm my-8 px-8 py-3"
               >
                 PROCEED TO CHECK-OUT
               </button>

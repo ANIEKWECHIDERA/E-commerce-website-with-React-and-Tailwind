@@ -31,12 +31,14 @@ const profileRoutes = require("./routes/profile");
 const cartRoutes = require("./routes/cart");
 const productRoute = require("./routes/productRoute");
 const cartCountRoute = require("./routes/cartCount");
+const deliveryInformationRoute = require("./routes/deliveryInfo");
 
 app.use("/api/products", productRoute);
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/cartCount", cartCountRoute);
+app.use("/api/users", deliveryInformationRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
