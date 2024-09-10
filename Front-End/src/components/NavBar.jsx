@@ -27,7 +27,7 @@ const NavBar = () => {
   }, []);
 
   const [visible, setVisible] = useState(false);
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const { setShowSearch, cartCount } = useContext(ShopContext);
   const navigate = useNavigate('/orders');
 
   async function logout() {
@@ -155,7 +155,7 @@ const NavBar = () => {
               />
               {isAuthenticated && (
                 <p className="absolute right-[-5px]  bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] ">
-                  {getCartCount()}
+                  {cartCount}
                 </p>
               )}
             </Link>

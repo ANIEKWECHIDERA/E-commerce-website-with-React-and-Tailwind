@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
-import { products } from "../assets/assets";
+// import { products } from "../assets/assets";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const ShopContext = createContext();
 
@@ -12,6 +13,61 @@ const ShopContextProvider = (Props) => {
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products/all");
+        const data = await response.json();
+        setProducts(data); // Store products in state
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        toast.error("Failed to fetch products");
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/cartCount",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setCartCount(response.data.count);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        toast.error("Failed to fetch cart");
+      }
+    };
+    fetchCart();
+  }, []);
+
+  useEffect(() => {
+    // This useEffect runs when cartItems is updated
+    const calculateCartCount = () => {
+      let totalCount = 0;
+
+      for (const itemId in cartItems) {
+        const sizes = cartItems[itemId];
+        for (const size in sizes) {
+          totalCount += sizes[size];
+        }
+      }
+      setCartCount(totalCount);
+    };
+
+    calculateCartCount();
+  }, [cartItems]);
 
   const addToCart = async (itemId, size) => {
     if (!size) {
@@ -33,11 +89,48 @@ const ShopContextProvider = (Props) => {
     }
 
     setCartItems(cartData);
+
+    // Send data to the backend
+    try {
+      await axios.post(
+        "http://localhost:5000/api/cart/add",
+        {
+          productId: itemId,
+          size,
+          quantity: cartData[itemId][size],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Send the token for authenticated users
+          },
+        }
+      );
+
+      // Update cart count after adding item
+      const response = await axios.get("http://localhost:5000/api/cartCount", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setCartCount(response.data.count);
+
+      // Axios automatically parses the JSON response
+    } catch (error) {
+      // Check if the error response exists and use its message
+      if (error.response) {
+        toast.error(error.response.data.message || "Error adding item to cart");
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
   };
 
   const getCartCount = () => {
     let totalCount = 0;
+
     for (const items in cartItems) {
+      console.log(cartItems);
       for (const item in cartItems[items]) {
         try {
           if (cartItems[items][item] > 0) {
@@ -54,7 +147,38 @@ const ShopContextProvider = (Props) => {
     cartData[itemId][size] = quantity;
 
     setCartItems(cartData);
+
+    // Send updated cart data to the backend
+    try {
+      await axios.post(
+        "http://localhost:5000/api/cart/update",
+        {
+          productId: itemId,
+          size,
+          quantity,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message || "Error updating quantity");
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
   };
+
+  // const updateQuantity = async (itemId, size, quantity) => {
+  //   let cartData = structuredClone(cartItems);
+  //   cartData[itemId][size] = quantity;
+
+  //   setCartItems(cartData);
+  // };
 
   const getCartAmount = () => {
     let totalAmount = 0;
@@ -85,6 +209,7 @@ const ShopContextProvider = (Props) => {
     updateQuantity,
     getCartAmount,
     navigate,
+    cartCount,
   };
 
   return (
