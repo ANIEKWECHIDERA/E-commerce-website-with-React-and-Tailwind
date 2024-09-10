@@ -46,6 +46,7 @@ const Cart = () => {
           },
         });
         setCartData(response.data);
+        console.log(response.data);
 
         setIsCartEmpty(response.data.length === 0);
       } catch (error) {
@@ -56,7 +57,7 @@ const Cart = () => {
   }, []);
 
   // Update item quantity
-  const handleQuantityChange = async (productId, quantity) => {
+  const handleQuantityChange = async (productId, size, quantity) => {
     if (quantity <= 0) return;
 
     try {
@@ -66,7 +67,9 @@ const Cart = () => {
         {
           productId,
           quantity,
+          size,
         },
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -79,6 +82,7 @@ const Cart = () => {
         },
       });
       setCartData(response.data);
+      console.log(response.data);
       setIsCartEmpty(response.data.length === 0);
     } catch (error) {
       console.error("Error updating cart quantity:", error);
@@ -86,13 +90,7 @@ const Cart = () => {
   };
 
   // Remove item from cart
-  const handleRemoveProduct = async (cartItemId, inputRef) => {
-    console.log(`cartItemId: ${cartItemId}`);
-    console.log(`Input value before removing item: ${inputRef.current.value}`);
-
-    // if (inputRef.current) {
-    //   inputRef.current.value = "";
-    // }
+  const handleRemoveProduct = async (cartItemId) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -110,7 +108,7 @@ const Cart = () => {
 
       setCartData(response.data);
       setIsCartEmpty(response.data.length === 0);
-      console.log("fetch");
+
       window.location.reload();
     } catch (error) {
       console.error("Error removing product from cart:", error);
@@ -166,7 +164,7 @@ const Cart = () => {
                         {productData.price}
                       </p>
                       <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-                        {productData.size}
+                        {item.size}
                       </p>
                     </div>
                   </div>
@@ -192,7 +190,7 @@ const Cart = () => {
 
                     // Call both functions with the appropriate value
                     // updateQuantity(item._id, item.size, value);
-                    handleQuantityChange(productData._id, value);
+                    handleQuantityChange(productData._id, item.size, value);
                   }}
                   className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
                   type="number"
@@ -202,7 +200,7 @@ const Cart = () => {
                 <img
                   onClick={() => {
                     // updateQuantity(item._id, item.size, 0);
-                    handleRemoveProduct(item._id, inputRef);
+                    handleRemoveProduct(item._id);
                   }}
                   className="w-4 mr-4 sm:w-5 cursor-pointer"
                   src={assets.bin_icon}
