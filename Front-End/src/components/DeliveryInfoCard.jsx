@@ -5,15 +5,15 @@ const DeliveryInfoCard = ({ userInfo, onEdit, onDelete }) => {
     userInfo;
 
   return (
-    <div className="p-4 bg-white border sm:w-full mt-10 max-w-md m-auto shadow-md rounded-lg">
+    <div className="p-4 bg-white sm:w-full max-w-md m-auto ">
       <div className="flex flex-col sm:w-80 py-3 px-7 items-start text-gray-800">
         <h2 className="text-xl font-semibold mb-2">
           {firstName} {lastName}
         </h2>
-        <p className="text-sm mb-1">{email || 'No email provided'}</p>
-        <p className="text-sm mb-1">{homeAddress || 'No address provided'}</p>
-        <p className="text-sm mb-1">{city || 'No city provided'}</p>
-        <p className="text-sm mb-1">{state || 'No state provided'}</p>
+        <p className="text-sm mb-2">{email || 'No email provided'}</p>
+        <p className="text-sm mb-2">{homeAddress || 'No address provided'}</p>
+        <p className="text-sm mb-2">{city || 'No city provided'}</p>
+        <p className="text-sm mb-2">{state || 'No state provided'}</p>
         <p className="text-sm mb-3">
           {mobileNumber || 'No phone number provided'}
         </p>

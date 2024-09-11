@@ -71,7 +71,7 @@ const DeliveryInfoForm = () => {
           deliveryInfo: formData,
         }
       );
-      console.log(`UserId: ${userId}`);
+
       alert('Delivery information saved successfully!');
     } catch (error) {
       console.error('Error saving delivery info:', error);
