@@ -47,4 +47,39 @@ router.get("/:userId/delivery-info", async (req, res) => {
   }
 });
 
+router.put("/:userId/delivery-info", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Define default values
+    const noDeliveryInfo = {
+      firstName: "No delivery",
+      lastName: "info",
+      email: "null",
+      homeAddress: "null",
+      city: "null",
+      state: "null",
+      mobileNumber: "null",
+    };
+
+    // Update the deliveryInfo with default values
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: { deliveryInfo: noDeliveryInfo } },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Delivery information deleted successfully", user });
+  } catch (error) {
+    console.error("Error updating delivery info:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 module.exports = router;
