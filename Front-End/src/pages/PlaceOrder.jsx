@@ -4,10 +4,50 @@ import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import DeliveryInfoForm from "../components/DeliveryInfoForm";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
-  const { navigate } = useContext(ShopContext);
+  const { navigate, cartItems, fetchUserId, totalAmount, deliveryFee } =
+    useContext(ShopContext);
+  const [deliveryInfo, setDeliveryInfo] = useState({});
+
+  const handleOrder = async () => {
+    const userId = await fetchUserId();
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}/delivery-info`
+      );
+      setDeliveryInfo(response.data.deliveryInfo);
+    } catch (error) {
+      console.error("Error fetching delivery info:", error);
+    }
+    try {
+      const order = {
+        userId,
+        totalPaid: totalAmount + deliveryFee,
+        paymentMethod: method,
+        deliveryAddress: deliveryInfo.homeAddress, // Adjust according to your form
+        items: cartItems.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.productId.price,
+          size: item.size,
+        })),
+      };
+      console.log(order);
+      await axios.post("http://localhost:5000/api/orders", order, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      toast.success("Order placed successfully!");
+      // add code to Clear cart after successful order
+      navigate("/orders");
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
+
   return (
     <div className=" sm:mt-40 flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t">
       {/* Left side */}
@@ -58,7 +98,7 @@ const PlaceOrder = () => {
             </div>
           </div>
           <button
-            onClick={() => navigate("/orders")}
+            onClick={handleOrder}
             className="mt-8 w-full bg-green-400 hover:bg-green-500 text-white font-medium py-3 px-4 rounded"
           >
             PLACE ORDER

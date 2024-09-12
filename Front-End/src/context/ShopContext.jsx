@@ -191,6 +191,36 @@ const ShopContextProvider = (Props) => {
     return totalAmount;
   };
 
+  const fetchUserId = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/api/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data._id;
+    } catch (err) {
+      setError(err);
+      console.error("Error fetching user profile:", err);
+    }
+  };
+
+  const fetchDeliveryInfo = async () => {
+    userId = await fetchUserId();
+    if (!userId) return;
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}/delivery-info`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      return response.data.deliveryInfo || null;
+    } catch (error) {
+      setError(error);
+      console.error("Error fetching delivery info:", error);
+    }
+  };
+
   const value = {
     products,
     currency,
@@ -209,6 +239,7 @@ const ShopContextProvider = (Props) => {
     totalAmount,
     fetchCartCount,
     fetchCartItems,
+    fetchUserId,
   };
 
   return (

@@ -1,41 +1,24 @@
 import React from 'react';
 import OrderHistoryCard from './OrderHistoryCard';
+import axios from 'axios';
 
 const OrderHistory = () => {
-  const orders = [
-    {
-      orderDate: '2024-09-01',
-      deliveryStatus: 'Shipped',
-      totalPaid: 99.99,
-      paymentMethod: 'Credit Card',
-      orderNumber: '1234567890',
-      deliveryAddress: '123 Elm Street, Springfield, IL',
-    },
-    {
-      orderDate: '2024-08-15',
-      deliveryStatus: 'Delivered',
-      totalPaid: 49.5,
-      paymentMethod: 'PayPal',
-      orderNumber: '0987654321',
-      deliveryAddress: '456 Oak Avenue, Springfield, IL',
-    },
-    {
-      orderDate: '2024-08-15',
-      deliveryStatus: 'Delivered',
-      totalPaid: 49.5,
-      paymentMethod: 'PayPal',
-      orderNumber: '0987654321',
-      deliveryAddress: '456 Oak Avenue, Springfield, IL',
-    },
-    {
-      orderDate: '2024-08-15',
-      deliveryStatus: 'Delivered',
-      totalPaid: 49.5,
-      paymentMethod: 'PayPal',
-      orderNumber: '0987654321',
-      deliveryAddress: '456 Oak Avenue, Springfield, IL',
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/orders/${userId}`
+        );
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching order history:', error);
+      }
+    };
+
+    fetchOrders();
+  }, [userId]);
 
   return (
     <div className=" shadow-lg pb-5 px-4 flex flex-col items-center w-[90%] m-auto  gap-4 text-gray-800">
