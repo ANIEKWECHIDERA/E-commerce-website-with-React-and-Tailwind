@@ -4,9 +4,10 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
 const User = require("../models/User");
+const auth = require("../middleware/auth");
 
 // Fetch user order history
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", auth, async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.params.userId });
     res.json(orders);
@@ -16,7 +17,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 // Place a new order
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { userId, totalPaid, paymentMethod, deliveryAddress, items } = req.body;
   try {
     const newOrder = new Order({
