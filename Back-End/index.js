@@ -32,6 +32,7 @@ const cartRoutes = require("./routes/cart");
 const productRoute = require("./routes/productRoute");
 const cartCountRoute = require("./routes/cartCount");
 const deliveryInformationRoute = require("./routes/deliveryInfo");
+const ordersRoutes = require("./routes/orders");
 
 app.use("/api/products", productRoute);
 app.use("/api/auth", authRoutes);
@@ -39,6 +40,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/cartCount", cartCountRoute);
 app.use("/api/users", deliveryInformationRoute);
+app.use("/api/orders", ordersRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
