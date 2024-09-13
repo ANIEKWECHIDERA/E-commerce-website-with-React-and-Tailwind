@@ -1,27 +1,78 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteAccount = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleDeleteAccount = e => {
+  const handleDeleteAccount = async e => {
     e.preventDefault();
-    // Add logic to verify phone number and password here
 
-    // For demonstration purposes, we'll just show a confirmation message
-    if (phoneNumber && password) {
-      setShowConfirmation(true);
-      setErrorMessage('');
-    } else {
+    if (!phoneNumber || !password) {
       setErrorMessage('Please enter both phone number and password.');
+      return;
+    }
+
+    try {
+      // Verify the password
+      const response = await axios.post(
+        'http://localhost:5000/api/verify-password',
+        {
+          phoneNumber,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        setShowConfirmation(true);
+        setErrorMessage('');
+      }
+    } catch (error) {
+      // Handle specific error messages
+      if (error.response?.status === 401) {
+        setErrorMessage('Invalid password. Please try again.');
+      } else if (error.response?.status === 404) {
+        setErrorMessage('User not found. Please check your phone number.');
+      } else {
+        setErrorMessage(
+          'An unexpected error occurred. Please try again later.'
+        );
+      }
     }
   };
 
-  const handleConfirmDelete = () => {
-    // Add logic to handle account deletion here
-    console.log('Account deleted');
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await axios.delete(
+        'http://localhost:5000/api/delete-account',
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          data: { phoneNumber, password },
+        }
+      );
+
+      if (response.status === 200) {
+        // Remove token from localStorage
+        localStorage.removeItem('token');
+
+        // Show success message and redirect
+        alert('Account deleted.');
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      } else {
+        setErrorMessage('Account could not be deleted. Please try again.');
+      }
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message ||
+          'An unexpected error occurred. Please try again later.'
+      );
+    }
   };
 
   return (

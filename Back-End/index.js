@@ -33,6 +33,8 @@ const productRoute = require("./routes/productRoute");
 const cartCountRoute = require("./routes/cartCount");
 const deliveryInformationRoute = require("./routes/deliveryInfo");
 const ordersRoutes = require("./routes/orders");
+const deleteAccountRoute = require("./routes/deleteAccount");
+const verifyAccountRoute = require("./routes/verifyPassword");
 
 app.use("/api/products", productRoute);
 app.use("/api/auth", authRoutes);
@@ -41,6 +43,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/cartCount", cartCountRoute);
 app.use("/api/users", deliveryInformationRoute);
 app.use("/api/orders", ordersRoutes);
+app.use("/api/", deleteAccountRoute);
+app.use("/api/", verifyAccountRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
