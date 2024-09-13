@@ -39,10 +39,10 @@ const userSchema = new mongoose.Schema({
     {
       productId: {
         type: String,
-        required: true,
+        required: false,
         ref: "Product",
       },
-      quantity: { type: Number, required: true, default: 1 },
+      quantity: { type: Number, required: false, default: 1 },
       price: { type: Number },
       size: { type: String },
     },
@@ -51,12 +51,12 @@ const userSchema = new mongoose.Schema({
   deliveryInfo: {
     firstName: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     lastName: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     email: {
@@ -66,22 +66,22 @@ const userSchema = new mongoose.Schema({
     },
     homeAddress: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     city: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     state: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     mobileNumber: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
   },

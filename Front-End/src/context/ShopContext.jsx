@@ -204,20 +204,27 @@ const ShopContextProvider = (Props) => {
     }
   };
 
-  const fetchDeliveryInfo = async () => {
-    userId = await fetchUserId();
-    if (!userId) return;
+  const clearCart = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/users/${userId}/delivery-info`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      return response.data.deliveryInfo || null;
+      const token = localStorage.getItem("token");
+
+      // Send request to clear the cart
+      await axios.delete("http://localhost:5000/api/cart/clear", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Optionally, fetch the updated cart data to reflect the changes in the UI
+      const response = await axios.get("http://localhost:5000/api/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCartItems(response.data);
     } catch (error) {
-      setError(error);
-      console.error("Error fetching delivery info:", error);
+      console.error("Error clearing the cart:", error);
     }
   };
 
@@ -240,6 +247,7 @@ const ShopContextProvider = (Props) => {
     fetchCartCount,
     fetchCartItems,
     fetchUserId,
+    clearCart,
   };
 
   return (

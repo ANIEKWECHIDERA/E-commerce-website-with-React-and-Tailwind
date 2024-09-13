@@ -9,8 +9,14 @@ import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
-  const { navigate, cartItems, fetchUserId, totalAmount, deliveryFee } =
-    useContext(ShopContext);
+  const {
+    navigate,
+    cartItems,
+    fetchUserId,
+    totalAmount,
+    deliveryFee,
+    clearCart,
+  } = useContext(ShopContext);
   const [deliveryInfo, setDeliveryInfo] = useState({});
 
   useEffect(() => {
@@ -49,6 +55,7 @@ const PlaceOrder = () => {
       });
       toast.success("Order placed successfully!");
       // add code to Clear cart after successful order
+      clearCart();
       navigate("/orders");
     } catch (error) {
       console.error("Error placing order:", error);

@@ -102,4 +102,20 @@ router.delete("/remove", auth, async (req, res) => {
   }
 });
 
+// Clear all items from the cart
+router.delete("/clear", auth, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    let user = await User.findById(userId);
+    user.cart = [];
+    user.cartCount = 0;
+
+    user = await user.save();
+    return res.status(200).send(user.cart);
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+  }
+});
+
 module.exports = router;

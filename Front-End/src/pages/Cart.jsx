@@ -108,11 +108,6 @@ const Cart = () => {
             Your cart is empty.
           </p> // Message if cart is empty
         ) : (
-          // cartData.map((item, index) => {
-          //   console.log("Cart item:", item);
-          //   const productData = products.find(
-          //     (product) => product._id === item._id
-
           cartData.map((item, index) => {
             const productData = item.productId;
 
