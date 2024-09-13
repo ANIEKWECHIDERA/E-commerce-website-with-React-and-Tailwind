@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
@@ -13,22 +13,29 @@ const PlaceOrder = () => {
     useContext(ShopContext);
   const [deliveryInfo, setDeliveryInfo] = useState({});
 
+  useEffect(() => {
+    const getDeliveryAddress = async () => {
+      const userId = await fetchUserId();
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${userId}/delivery-info`
+        );
+        setDeliveryInfo(response.data.deliveryInfo);
+      } catch (error) {
+        console.error("Error fetching delivery info:", error);
+      }
+    };
+    getDeliveryAddress();
+  }, []);
+
   const handleOrder = async () => {
     const userId = await fetchUserId();
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/users/${userId}/delivery-info`
-      );
-      setDeliveryInfo(response.data.deliveryInfo);
-    } catch (error) {
-      console.error("Error fetching delivery info:", error);
-    }
     try {
       const order = {
         userId,
         totalPaid: totalAmount + deliveryFee,
         paymentMethod: method,
-        deliveryAddress: deliveryInfo.homeAddress, // Adjust according to your form
+        deliveryAddress: deliveryInfo.homeAddress,
         items: cartItems.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
@@ -36,7 +43,7 @@ const PlaceOrder = () => {
           size: item.size,
         })),
       };
-      console.log(order);
+
       await axios.post("http://localhost:5000/api/orders", order, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });

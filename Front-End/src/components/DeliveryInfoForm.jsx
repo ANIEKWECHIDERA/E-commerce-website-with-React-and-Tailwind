@@ -118,6 +118,7 @@ const DeliveryInfoForm = () => {
         className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
         type="text"
         placeholder="Enter Home Address"
+        required
       />
       <div className="flex gap-3">
         <input
@@ -127,6 +128,7 @@ const DeliveryInfoForm = () => {
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
           type="text"
           placeholder="City"
+          required
         />
         <input
           name="state"
@@ -135,6 +137,7 @@ const DeliveryInfoForm = () => {
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
           type="text"
           placeholder="State"
+          required
         />
       </div>
       <input
@@ -144,6 +147,7 @@ const DeliveryInfoForm = () => {
         className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
         type="text"
         placeholder="Mobile Number"
+        required
       />
       <button
         type="submit"
