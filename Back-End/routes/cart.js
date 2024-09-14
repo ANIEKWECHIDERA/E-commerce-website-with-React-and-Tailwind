@@ -23,6 +23,42 @@ router.post("/add", auth, async (req, res) => {
 
     if (itemIndex > -1) {
       let productItem = user.cart[itemIndex];
+      productItem.quantity += quantity;
+      user.cart[itemIndex] = productItem;
+    } else {
+      user.cart.push({ productId, size, quantity });
+    }
+    // Update cart count
+    user.cartCount = user.cart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+    user = await user.save();
+    return res.status(200).send(user.cart);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
+});
+
+//for cart quantity
+router.post("/cart-qty", auth, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { productId, size, quantity } = req.body;
+
+    if (!productId || quantity < 0 || !size) {
+      return res.status(400).json({ message: "Invalid input" });
+    }
+
+    let user = await User.findById(userId);
+    let itemIndex = user.cart.findIndex(
+      (p) => p.productId == productId && p.size == size
+    );
+
+    if (itemIndex > -1) {
+      let productItem = user.cart[itemIndex];
       productItem.quantity = quantity;
       user.cart[itemIndex] = productItem;
     } else {

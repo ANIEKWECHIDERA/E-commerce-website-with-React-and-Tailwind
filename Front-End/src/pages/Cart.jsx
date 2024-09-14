@@ -44,7 +44,7 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "http://localhost:5000/api/cart/cart-qty",
         {
           productId,
           quantity,

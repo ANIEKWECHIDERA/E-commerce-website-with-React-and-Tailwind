@@ -17,16 +17,19 @@ const ShopContextProvider = (Props) => {
   const [cartCount, setCartCount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
+  const fetchProducts = async () => {
+    try {
+      console.log("Fetching products...");
+      const response = await fetch("http://localhost:5000/api/products/all");
+      const data = await response.json();
+      console.log("Products fetched:", data);
+      setProducts(data); // Store products in state
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/products/all");
-        const data = await response.json();
-        setProducts(data); // Store products in state
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
     fetchProducts();
   }, []);
 
@@ -43,10 +46,6 @@ const ShopContextProvider = (Props) => {
       console.error("Error fetching cart:", error);
     }
   };
-
-  useEffect(() => {
-    fetchCartCount();
-  }, [cartItems]);
 
   const fetchCartItems = async () => {
     try {
@@ -124,7 +123,7 @@ const ShopContextProvider = (Props) => {
     } catch (error) {
       // Check if the error response exists and use its message
       if (error.response) {
-        toast.error(error.response.data.message || "Error adding item to cart");
+        toast.error("Please Create an account or login");
       } else {
       }
     }
@@ -248,6 +247,7 @@ const ShopContextProvider = (Props) => {
     fetchCartItems,
     fetchUserId,
     clearCart,
+    fetchProducts,
   };
 
   return (
