@@ -262,7 +262,7 @@ const NavBar = () => {
                       logout;
                     }
                   }}
-                  className="cursor-pointer hover:text-black"
+                  className="cursor-pointer py-2 pl-5 border hover:text-black"
                 >
                   Log-Out{' '}
                 </p>

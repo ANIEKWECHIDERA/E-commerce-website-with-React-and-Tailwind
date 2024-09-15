@@ -64,7 +64,7 @@ const UserProfile = () => {
       {isModalOpen && (
         <div
           ref={modalRef}
-          className="fixed right-10 left-10 top-20 bg-white p-6 z-30 shadow-lg rounded-lg"
+          className="fixed right-10 left-10 top-32 bg-white p-6 z-30 shadow-lg rounded-lg"
         >
           <div className="flex flex-col">
             <p
