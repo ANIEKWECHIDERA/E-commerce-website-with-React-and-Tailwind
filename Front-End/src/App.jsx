@@ -17,6 +17,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminLogin from "./pages/AdminLogin";
+import AdminPage from "./pages/AdminPage";
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
       <SearchBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/mphxadmnlgn" element={<AdminLogin />} />
+        <Route path="/mphxadmnctrl" element={<AdminPage />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/about" element={<About />} />
