@@ -93,3 +93,44 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Admin Authentication Controller
+exports.adminLogin = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // Validate input
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ message: "Username and Password are required" });
+    }
+
+    // Admin credentials
+    const adminUsername = process.env.ADMIN_USERNAME;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    // Check if username and password match
+    if (username !== adminUsername) {
+      return res
+        .status(400)
+        .json({ message: "Admin username or password incorrect" });
+    }
+
+    const isMatch = await bcrypt.compare(password, adminPassword); // Compare hashed password
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ message: "Admin username or password incorrect" });
+    }
+
+    // If successful, generate a token for the admin session
+    const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ message: "Login successful", token });
+  } catch (error) {
+    console.error("Error during admin login:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
