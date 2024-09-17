@@ -19,6 +19,7 @@ import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
+import AdminRoute from "./components/admin/AdminRoute";
 
 const App = () => {
   const location = useLocation();
@@ -46,7 +47,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mphxadmnlgn" element={<AdminLogin />} />
-        <Route path="/mphxadmnctrl" element={<AdminPage />} />
+        <Route
+          path="/mphxadmnctrl"
+          element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
+          }
+        />
         <Route path="/collection" element={<Collection />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/about" element={<About />} />
