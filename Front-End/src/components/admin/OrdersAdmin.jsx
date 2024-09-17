@@ -59,7 +59,7 @@ const OrdersAdmin = () => {
       { text: 'Order Received', color: 'green' },
       { text: 'Packing Order', color: 'yellow' },
       { text: 'Transporting Order', color: 'blue' },
-      { text: 'Delivered', color: 'purple' },
+      { text: 'Delivered', color: 'violet' },
     ];
 
     return (
@@ -107,7 +107,7 @@ const OrdersAdmin = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Orders Admin Panel</h1>
+      <h1 className="text-2xl font-normal mb-6">Manage Orders</h1>
       {orders.length > 0 ? (
         orders.map(order => (
           <div key={order.id}>{renderOrderDetails(order)}</div>

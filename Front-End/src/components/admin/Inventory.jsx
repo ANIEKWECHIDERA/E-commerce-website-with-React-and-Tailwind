@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './InventoryModal';
 
-// Mock data (same as before)
 const mockProducts = [
   {
     id: 'P001',
@@ -130,7 +129,7 @@ const Inventory = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
+      <h1 className="text-2xl font-normal mb-6">Inventory Management</h1>
 
       <div className="bg-white  rounded-lg p-6 mb-6">
         <div className="flex justify-between mb-4">

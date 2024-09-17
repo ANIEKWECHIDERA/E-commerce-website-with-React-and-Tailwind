@@ -25,6 +25,18 @@ const AdminPage = () => {
     }
   };
 
+  async function logout() {
+    try {
+      // Remove the token from local storage
+      localStorage.removeItem("token");
+
+      // Redirect to login page or home page
+      window.location.href = "/mphxadmnlgn";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -76,7 +88,10 @@ const AdminPage = () => {
             >
               Inventory
             </p>
-            <button className="bg-red-500 py-2 px-10 rounded-full text-white hover:text-red-500 hover:bg-gray-200 transition-colors">
+            <button
+              onClick={logout}
+              className="bg-red-500 py-2 px-10 rounded text-white hover:text-red-500 hover:bg-gray-200 transition-colors"
+            >
               Logout
             </button>
           </nav>

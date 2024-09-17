@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const AddProducts = () => {
   const [images, setImages] = useState([]);
+  const [productName, setProductName] = useState('');
   const [category, setCategory] = useState('');
   const [isBestseller, setIsBestseller] = useState(false);
   const [price, setPrice] = useState('');
@@ -32,7 +33,13 @@ const AddProducts = () => {
   };
 
   const handleSubmit = () => {
-    if (!category || !price || !description || sizes.length === 0) {
+    if (
+      !productName ||
+      !category ||
+      !price ||
+      !description ||
+      sizes.length === 0
+    ) {
       toast.error('Please fill in all required fields.');
       return;
     }
@@ -40,6 +47,7 @@ const AddProducts = () => {
     toast.success('Product successfully added!');
     // Reset form fields
     setImages([]);
+    setProductName('');
     setCategory('');
     setIsBestseller(false);
     setPrice('');
@@ -49,8 +57,8 @@ const AddProducts = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h1 className="text-2xl font-normal mb-6">Add New Product</h1>
+      <div className="bg-white  rounded-lg p-6 mb-6">
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Product Images
@@ -74,6 +82,17 @@ const AddProducts = () => {
           </div>
         </div>
 
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Product Name
+          </label>
+          <input
+            type="text"
+            value={productName}
+            onChange={e => setProductName(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Category

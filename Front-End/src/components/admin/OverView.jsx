@@ -5,7 +5,7 @@ const OverView = () => {
     <div className="bg-white p-6 rounded-lg ">
       {/* Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Overview</h1>
+        <h1 className="text-3xl font-normal text-gray-800">Overview</h1>
         <p className="text-gray-600">
           Quick insights into your store's performance.
         </p>

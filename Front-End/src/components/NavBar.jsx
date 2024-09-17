@@ -20,7 +20,6 @@ const NavBar = () => {
         setUser(response.data);
       } catch (error) {
         console.error(error);
-        setErrorMessage('Error fetching profile');
       }
     };
     fetchProfile();
