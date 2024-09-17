@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Collection from "./pages/Collection";
 import About from "./pages/About";
@@ -21,11 +21,28 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 
 const App = () => {
+  const location = useLocation();
+
+  // Define routes where you don't want to show NavBar and Footer
+  const hideNavBarFooterRoutes = ["/mphxadmnlgn", "/mphxadmnctrl"];
+
+  // Check if the current route is in the list
+  const shouldHideNavBarFooter = hideNavBarFooterRoutes.includes(
+    location.pathname
+  );
+
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <ToastContainer />
-      <NavBar />
-      <SearchBar />
+
+      {/* Conditionally render NavBar and SearchBar */}
+      {!shouldHideNavBarFooter && (
+        <>
+          <NavBar />
+          <SearchBar />
+        </>
+      )}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/mphxadmnlgn" element={<AdminLogin />} />
@@ -62,7 +79,9 @@ const App = () => {
           }
         />
       </Routes>
-      <Footer />
+
+      {/* Conditionally render Footer */}
+      {!shouldHideNavBarFooter && <Footer />}
     </div>
   );
 };
