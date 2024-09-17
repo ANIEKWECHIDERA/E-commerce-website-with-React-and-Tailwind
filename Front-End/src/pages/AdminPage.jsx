@@ -28,40 +28,40 @@ const AdminPage = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-white  sticky top-0 h-screen">
-        <div className="p-6">
+      <aside className="w-64 bg-white">
+        <div className="p-6 mt-10">
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">
             Admin Panel
           </h2>
-          <nav className="space-y-4">
+          <nav className="space-y-10">
             <p
-              className={`block text-lg border-b text-gray-600 hover:text-blue-600 transition-colors cursor-pointer ${
-                activeSection === "overview" ? "text-blue-600 border-b-2" : ""
+              className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
+                activeSection === "overview" ? "text-gray-950 border-b-2" : ""
               }`}
               onClick={() => setActiveSection("overview")}
             >
               Overview
             </p>
             <p
-              className={`block text-lg border-b text-gray-600 hover:text-blue-600 transition-colors cursor-pointer ${
-                activeSection === "orders" ? "text-blue-600 border-b-2" : ""
+              className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
+                activeSection === "orders" ? "text-gray-950 border-b-2" : ""
               }`}
               onClick={() => setActiveSection("orders")}
             >
               Orders
             </p>
             <p
-              className={`block text-lg border-b text-gray-600 hover:text-blue-600 transition-colors cursor-pointer ${
-                activeSection === "blog" ? "text-blue-600 border-b-2" : ""
+              className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
+                activeSection === "blog" ? "text-gray-950 border-b-2" : ""
               }`}
               onClick={() => setActiveSection("blog")}
             >
               Blog
             </p>
             <p
-              className={`block text-lg border-b text-gray-600 hover:text-blue-600 transition-colors cursor-pointer ${
+              className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
                 activeSection === "add-products"
-                  ? "text-blue-600 border-b-2"
+                  ? "text-gray-950 border-b-2"
                   : ""
               }`}
               onClick={() => setActiveSection("add-products")}
@@ -69,14 +69,14 @@ const AdminPage = () => {
               Add Products
             </p>
             <p
-              className={`block text-lg border-b text-gray-600 hover:text-blue-600 transition-colors cursor-pointer ${
-                activeSection === "inventory" ? "text-blue-600 border-b-2" : ""
+              className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
+                activeSection === "inventory" ? "text-gray-950 border-b-2" : ""
               }`}
               onClick={() => setActiveSection("inventory")}
             >
               Inventory
             </p>
-            <button className="text-red-500 hover:text-red-700 mt-4">
+            <button className="bg-red-500 py-2 px-10 rounded-full text-white hover:text-red-500 hover:bg-gray-200 transition-colors">
               Logout
             </button>
           </nav>

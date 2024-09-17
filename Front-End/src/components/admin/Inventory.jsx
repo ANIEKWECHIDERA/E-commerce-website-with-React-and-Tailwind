@@ -132,7 +132,7 @@ const Inventory = () => {
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
 
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="bg-white  rounded-lg p-6 mb-6">
         <div className="flex justify-between mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">

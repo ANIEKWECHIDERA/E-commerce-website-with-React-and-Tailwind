@@ -69,7 +69,7 @@ const BlogAdmin = () => {
       <h2 className="text-2xl font-semibold mb-6">Manage Blog Posts</h2>
 
       {/* Blog Post Form */}
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="bg-white  rounded-lg p-6 mb-6">
         <h3 className="text-xl font-semibold mb-4">
           {currentPost !== null ? 'Edit Post' : 'Add New Post'}
         </h3>
@@ -115,7 +115,7 @@ const BlogAdmin = () => {
       </div>
 
       {/* Blog Post List */}
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="bg-white rounded-lg p-6">
         <h3 className="text-xl font-semibold mb-4">Existing Blog Posts</h3>
         {posts.length > 0 ? (
           posts.map((post, index) => (
