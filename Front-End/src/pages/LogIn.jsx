@@ -64,7 +64,7 @@ const LogIn = () => {
           setTimeout(() => {
             setLoading(false);
             navigate("/collection");
-          }, 4000);
+          }, 3000);
         }
       }
     } catch (error) {
