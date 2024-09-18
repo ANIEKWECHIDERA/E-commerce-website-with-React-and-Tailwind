@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OverView from "../components/admin/OverView";
 import OrdersAdmin from "../components/admin/OrdersAdmin";
 import BlogAdmin from "../components/admin/BlogAdmin";
 import AddProducts from "../components/admin/AddProducts";
 import Inventory from "../components/admin/Inventory";
+import TokenExpiredPopup from "../components/admin/TokenExpiredPopup";
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("overview");
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   const renderContent = () => {
     switch (activeSection) {
@@ -36,6 +39,43 @@ const AdminPage = () => {
       console.error("Logout failed:", error);
     }
   }
+
+  useEffect(() => {
+    async function checkTokenExpiration() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // No token, trigger login redirect
+          return;
+        }
+
+        // Call API to verify token
+        const response = await fetch(
+          "http://localhost:5000/api/verify-token/admin",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 401) {
+          // Token expired
+          setPopupMessage("Session expired. Please log in again.");
+          setShowPopup(true);
+        }
+      } catch (error) {
+        console.error("Error checking token:", error);
+      }
+    }
+
+    checkTokenExpiration();
+  }, []);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    logout();
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -107,6 +147,11 @@ const AdminPage = () => {
           {renderContent()}
         </div>
       </main>
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <TokenExpiredPopup message={popupMessage} onClose={handleClosePopup} />
+      )}
     </div>
   );
 };

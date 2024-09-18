@@ -11,6 +11,11 @@ module.exports = function (req, res, next) {
     req.user = verified;
     next();
   } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) {
+      return res
+        .status(401)
+        .json({ message: "Your session has expired. Please log in again." });
+    }
     res.status(400).json({ message: "Invalid Token" });
   }
 };

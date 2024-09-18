@@ -5,30 +5,14 @@ import axios from "axios";
 
 export const ShopContext = createContext();
 
-const fetchProd = async () => {
-  try {
-    // console.log("Fetching products...");
-    const response = await fetch("http://localhost:5000/api/products/all");
-    const data = await response.json();
-    // console.log("Products fetched:", data);
-
-    const prd = data; // Store products in state
-    return prd;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-};
-
-fetchProd();
-
 const ShopContextProvider = (Props) => {
   const currency = "$";
   const deliveryFee = 10;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState({});
   const navigate = useNavigate();
-  const [products, setProducts] = useState([fetchProd()]);
+  const [products, setProducts] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
