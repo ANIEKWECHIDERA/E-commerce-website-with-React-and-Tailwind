@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from './InventoryModal';
 
 const mockProducts = [
@@ -95,7 +95,7 @@ const mockProducts = [
 ];
 
 const Inventory = () => {
-  const [products, setProducts] = useState(mockProducts);
+  const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [editProduct, setEditProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -105,19 +105,70 @@ const Inventory = () => {
     setModalOpen(true);
   };
 
-  const handleSave = updatedProduct => {
-    setProducts(
-      products.map(product =>
-        product.id === updatedProduct.id ? updatedProduct : product
-      )
-    );
-    setEditProduct(null);
-    setModalOpen(false);
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch('http://localhost:5000/api/products/all');
+        const data = await response.json();
+        const sortedData = data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        setProducts(sortedData);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  const handleSave = async updatedProduct => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/products/edit/${updatedProduct._id}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedProduct),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to update product');
+      }
+
+      const updatedData = await response.json();
+      setProducts(
+        products.map(product =>
+          product._id === updatedData._id ? updatedData : product
+        )
+      );
+    } catch (error) {
+      console.error('Error updating product:', error);
+    } finally {
+      setEditProduct(null);
+      setModalOpen(false);
+    }
   };
 
-  const handleDelete = id => {
+  const handleDelete = async id => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      setProducts(products.filter(product => product.id !== id));
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/products/delete/${id}`,
+          {
+            method: 'DELETE',
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to delete product');
+        }
+
+        setProducts(products.filter(product => product._id !== id));
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
     }
   };
 
@@ -130,8 +181,7 @@ const Inventory = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-2xl font-normal mb-6">Inventory Management</h1>
-
-      <div className="bg-white  rounded-lg p-6 mb-6">
+      <div className="bg-white rounded-lg p-6 mb-6">
         <div className="flex justify-between mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -161,7 +211,7 @@ const Inventory = () => {
         {filteredProducts.length > 0 ? (
           filteredProducts.map(product => (
             <div
-              key={product.id}
+              key={product._id}
               className="bg-gray-50 shadow-md rounded-lg p-6 mb-4"
             >
               <div className="flex mb-4">
@@ -197,7 +247,7 @@ const Inventory = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => handleDelete(product._id)}
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   >
                     Remove

@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Modal = ({ isOpen, onClose, product, onSave }) => {
-  const [name, setName] = useState(product?.name || '');
-  const [category, setCategory] = useState(product?.category || '');
-  const [price, setPrice] = useState(product?.price || '');
-  const [description, setDescription] = useState(product?.description || '');
-  const [images, setImages] = useState(product?.images || []);
-  const [sizes, setSizes] = useState(product?.sizes || []);
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [images, setImages] = useState([]);
+  const [sizes, setSizes] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setCategory(product.category);
+      setPrice(product.price);
+      setDescription(product.description);
+      setImages(product.images);
+      setSizes(product.sizes);
+    }
+  }, [product]);
 
   const handleImageChange = e => {
     const files = Array.from(e.target.files);
@@ -21,7 +32,7 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
   const handleSave = () => {
     if (name && category && price) {
       const updatedProduct = {
-        id: product.id,
+        _id: product._id, // Use _id instead of id
         name,
         category,
         price,
@@ -36,6 +47,15 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
       toast.error('Please fill out all required fields.');
     }
   };
+
+  useEffect(() => {
+    return () => {
+      // Clean up object URLs to avoid memory leaks
+      images.forEach(image => {
+        URL.revokeObjectURL(image);
+      });
+    };
+  }, [images]);
 
   if (!isOpen) return null;
 
