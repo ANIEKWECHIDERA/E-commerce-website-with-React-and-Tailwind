@@ -10,6 +10,7 @@ const AddProducts = () => {
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [sizes, setSizes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const categories = ['Jacket', 'Blazer', 'Shoe', 'Belt', 'Tie', 'Accessory'];
   const availableSizes = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -32,7 +33,7 @@ const AddProducts = () => {
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       !productName ||
       !category ||
@@ -43,16 +44,61 @@ const AddProducts = () => {
       toast.error('Please fill in all required fields.');
       return;
     }
-    // Simulate a successful post
-    toast.success('Product successfully added!');
-    // Reset form fields
-    setImages([]);
-    setProductName('');
-    setCategory('');
-    setIsBestseller(false);
-    setPrice('');
-    setDescription('');
-    setSizes([]);
+
+    setIsLoading(true);
+
+    const imageUrls = [];
+    for (let i = 0; i < images.length; i++) {
+      const formData = new FormData();
+      formData.append('image', images[i]);
+
+      try {
+        const response = await fetch(
+          'http://localhost:5000/api/products/upload',
+          {
+            method: 'POST',
+            body: formData,
+          }
+        );
+        const data = await response.json();
+        imageUrls.push(data.imageUrl);
+      } catch (error) {
+        toast.error('Image upload failed.');
+        return;
+      }
+    }
+
+    const productData = {
+      name: productName,
+      category,
+      bestseller: isBestseller,
+      price,
+      description,
+      sizes,
+      images: imageUrls,
+    };
+
+    try {
+      const res = await fetch('http://localhost:5000/api/products/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productData),
+      });
+      if (res.ok) {
+        setIsLoading(false);
+        toast.success('Product successfully added!');
+        // Reset form fields
+        setImages([]);
+        setProductName('');
+        setCategory('');
+        setIsBestseller(false);
+        setPrice('');
+        setDescription('');
+        setSizes([]);
+      }
+    } catch (err) {
+      toast.error('Failed to add product.');
+    }
   };
 
   return (
@@ -181,6 +227,15 @@ const AddProducts = () => {
           Add Product
         </button>
       </div>
+
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="flex flex-col items-center">
+            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16 mb-4"></div>
+            <p className="text-white">Uploading...</p>
+          </div>
+        </div>
+      )}
 
       <ToastContainer />
     </div>

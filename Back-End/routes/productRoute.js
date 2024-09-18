@@ -1,6 +1,9 @@
 const express = require("express");
 const Product = require("../models/product");
 const router = express.Router();
+const cloudinary = require("../config/cloudinaryConfig");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 router.get("/all", async (req, res) => {
   try {
@@ -52,6 +55,19 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting product" });
+  }
+});
+
+router.post("/upload", upload.single("image"), async (req, res) => {
+  try {
+    const file = req.file.path;
+    const result = await cloudinary.uploader.upload(file, {
+      folder: "products",
+      resource_type: "image",
+    });
+    res.status(200).json({ imageUrl: result.secure_url });
+  } catch (err) {
+    res.status(500).json({ error: "Image upload failed." });
   }
 });
 
