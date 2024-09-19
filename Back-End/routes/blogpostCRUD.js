@@ -6,7 +6,6 @@ const cloudinary = require("cloudinary").v2;
 const blogPost = require("../models/blogpost");
 const router = express.Router();
 
-//configuring multer for file uploads
 const upload = multer({ dest: "uploads/" });
 
 // Cloudinary configuration
@@ -48,10 +47,9 @@ router.get("/blogs", async (req, res) => {
   }
 });
 
-router.put("/blog/:id", async (req, res) => {
+router.put("/blog/:id", upload.single("media"), async (req, res) => {
   try {
     const blog = await blogPost.findById(req.params.id);
-
     if (!blog) return res.status(404).json({ message: "Blog post not found" });
 
     if (req.file) {
@@ -63,13 +61,14 @@ router.put("/blog/:id", async (req, res) => {
     }
 
     blog.title = req.body.title || blog.title;
-    blog.content = req.body.content || blog.content; // Retain HTML formatting
+    blog.content = req.body.content || blog.content;
     blog.tags = req.body.tags || blog.tags;
     blog.updatedAt = Date.now();
 
     await blog.save();
-    res.status(200).json({ message: "Blog post updated successfully" });
+    res.status(200).json(blog);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error updating blog post" });
   }
 });
@@ -80,6 +79,7 @@ router.delete("/blog/:id", async (req, res) => {
     if (!blog) {
       return res.status(404).json({ error: "Blog post not found." });
     }
+    res.status(200).json({ message: "Blog post deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete blog post." });
   }
