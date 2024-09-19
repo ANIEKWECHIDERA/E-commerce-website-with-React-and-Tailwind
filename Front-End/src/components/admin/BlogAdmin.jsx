@@ -3,13 +3,39 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const BlogAdmin = () => {
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-
+  const [editorData, setEditorData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
+
+  useEffect(() => {
+    if (currentPost !== null) {
+      const postToEdit = posts[currentPost];
+      setNewPost({
+        title: postToEdit.title,
+        content: postToEdit.content,
+        media: postToEdit.media,
+        mediaPreview: postToEdit.mediaPreview,
+        tags: postToEdit.tags,
+      });
+      setEditorData(postToEdit.content); // Update local editor state
+    } else {
+      setNewPost({
+        title: '',
+        content: '',
+        media: null,
+        mediaPreview: null,
+        tags: [],
+      });
+      setEditorData('');
+    }
+  }, [currentPost, posts]);
+
   const [newPost, setNewPost] = useState({
     title: '',
     content: '',
@@ -97,10 +123,18 @@ const BlogAdmin = () => {
   };
 
   const handleEditPost = index => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPost(index);
-    setNewPost(posts[index]);
+    const postToEdit = posts[index];
+    setNewPost({
+      title: postToEdit.title,
+      content: postToEdit.content,
+      media: postToEdit.media || null, // Retain current media
+      mediaPreview: postToEdit.mediaPreview || null, // Retain current media preview
+      tags: postToEdit.tags,
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Optional: scroll to the form
   };
+
   const handleUpdatePost = async () => {
     const formData = new FormData();
     formData.append('title', newPost.title);
@@ -122,13 +156,6 @@ const BlogAdmin = () => {
       toast.success('Post successfully updated!');
       fetchPosts();
       setCurrentPost(null);
-      setNewPost({
-        title: '',
-        content: '',
-        media: null,
-        mediaPreview: null,
-        tags: [],
-      });
     } catch (error) {
       toast.error('Error updating post.');
     }
@@ -187,13 +214,13 @@ const BlogAdmin = () => {
           placeholder="Title"
           className="w-full p-3 mb-4 border border-gray-300 rounded"
         />
-        <textarea
-          name="content"
-          value={newPost.content}
-          onChange={handleInputChange}
-          placeholder="Content"
-          className="w-full p-3 mb-4 border border-gray-300 rounded"
-          rows="25"
+        <CKEditor
+          editor={ClassicEditor}
+          data={editorData}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setNewPost({ ...newPost, content: data });
+          }}
         />
         <input type="file" onChange={handleFileChange} className="mb-4" />
         {isPreviewVisible && (
