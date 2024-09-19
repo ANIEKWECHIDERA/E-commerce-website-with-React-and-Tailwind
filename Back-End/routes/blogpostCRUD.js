@@ -84,3 +84,5 @@ router.delete("/blog/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete blog post." });
   }
 });
+
+module.exports = router;
