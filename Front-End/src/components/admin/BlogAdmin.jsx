@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import BlogAdminModal from './BlogAdminModal';
 
 const BlogAdmin = () => {
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
@@ -12,6 +13,7 @@ const BlogAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (currentPost !== null) {
@@ -105,17 +107,10 @@ const BlogAdmin = () => {
 
       try {
         await axios.post('http://localhost:5000/api/blog', formData);
-        toast.success('Post successfully added!');
-        setNewPost({
-          title: '',
-          content: '',
-          media: null,
-          mediaPreview: null,
-          tags: [],
-        });
-
-        fetchPosts();
         setIsLoading(false);
+        toast.success('Post successfully added!');
+        fetchPosts();
+        setCurrentPost(null);
       } catch (error) {
         toast.error('Error adding post.');
       }
@@ -128,11 +123,12 @@ const BlogAdmin = () => {
     setNewPost({
       title: postToEdit.title,
       content: postToEdit.content,
-      media: postToEdit.media || null, // Retain current media
-      mediaPreview: postToEdit.mediaPreview || null, // Retain current media preview
+      media: postToEdit.image || null, // Retain current media
+      mediaPreview: postToEdit.image || null, // Retain current media preview
       tags: postToEdit.tags,
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Optional: scroll to the form
+
+    setIsModalOpen(true);
   };
 
   const handleUpdatePost = async () => {
@@ -152,12 +148,14 @@ const BlogAdmin = () => {
         `http://localhost:5000/api/blog/${posts[currentPost]._id}`,
         formData
       );
-      setIsLoading(false);
       toast.success('Post successfully updated!');
       fetchPosts();
+      setIsModalOpen(false);
       setCurrentPost(null);
     } catch (error) {
       toast.error('Error updating post.');
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleDeletePost = async index => {
@@ -217,6 +215,21 @@ const BlogAdmin = () => {
         <CKEditor
           editor={ClassicEditor}
           data={editorData}
+          config={{
+            toolbar: [
+              'heading',
+              '|',
+              'bold',
+              'italic',
+              '|',
+              'link',
+              'bulletedList',
+              'numberedList',
+              'undo',
+              'redo',
+            ],
+            removePlugins: ['EasyImage', 'ImageUpload', 'BlockQuote', 'Table'], // Remove plugins as needed
+          }}
           onChange={(event, editor) => {
             const data = editor.getData();
             setNewPost({ ...newPost, content: data });
@@ -319,6 +332,23 @@ const BlogAdmin = () => {
           <p className="text-gray-600">No blog posts available.</p>
         )}
       </div>
+
+      {isModalOpen && (
+        <BlogAdminModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setCurrentPost(null);
+          }} // Close modal
+          onUpdate={handleUpdatePost} // Update post
+          postData={newPost} // Pass the current post data to the modal
+          onInputChange={handleInputChange}
+          onFileChange={handleFileChange}
+          tagsList={tagsList}
+          onTagChange={handleTagChange}
+          isLoading={isLoading} // Handle loading state
+        />
+      )}
 
       {/* Toast Notifications */}
       <ToastContainer />

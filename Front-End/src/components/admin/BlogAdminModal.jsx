@@ -17,7 +17,7 @@ const BlogAdminModal = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg p-6 w-1/2">
+      <div className=" bg-white rounded-lg p-6 w-1/2 max-h-[90vh] overflow-y-auto">
         <h3 className="text-xl mb-4">Edit Post</h3>
         <input
           type="text"
@@ -31,8 +31,19 @@ const BlogAdminModal = ({
           editor={ClassicEditor}
           data={postData.content}
           config={{
-            toolbar: ['heading', '|', 'bold', 'italic', '|', 'undo', 'redo'],
-            removePlugins: ['ImageUpload', 'BlockQuote', 'Table'], // Remove plugins as needed
+            toolbar: [
+              'heading',
+              '|',
+              'bold',
+              'italic',
+              '|',
+              'link',
+              'bulletedList',
+              'numberedList',
+              'undo',
+              'redo',
+            ],
+            removePlugins: ['EasyImage', 'ImageUpload', 'BlockQuote', 'Table'], // Remove plugins as needed
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
@@ -45,7 +56,7 @@ const BlogAdminModal = ({
             <img
               src={postData.mediaPreview}
               alt="Media Preview"
-              className="max-w-full h-auto rounded-lg shadow-md"
+              className="max-w-40 h-auto rounded-lg shadow-md"
             />
           </div>
         )}
