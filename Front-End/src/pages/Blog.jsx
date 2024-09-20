@@ -4,6 +4,7 @@ import NewsLetterBox from "../components/NewsLetterBox";
 import BlogTab from "../components/BlogTab";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
+import Title from "../components/Title";
 
 const Blog = () => {
   const [visible, setVisibility] = useState(false);
@@ -14,7 +15,7 @@ const Blog = () => {
     <div>
       <div className="sm:mt-32  w-full py-8">
         <h1 className="prata-regular text-2xl sm:text-4xl text-center text-gray-700 font-medium">
-          Welcome To Our Blog
+          <Title text1={"WELCOME"} text2={"TO OUR BLOG"} />
         </h1>
       </div>
 
