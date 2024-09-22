@@ -18,6 +18,8 @@ const orderSchema = new mongoose.Schema({
       size: { type: String, required: true },
     },
   ],
+  isNewOrder: { type: Boolean, default: true },
+  status: { type: String, default: "pending" },
 });
 
 // Middleware to generate order number before saving

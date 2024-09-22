@@ -2,21 +2,43 @@
 
 const express = require("express");
 const router = express.Router();
-const Order = require("../models/Order");
+const Order = require("../models/order");
 const User = require("../models/User");
 const auth = require("../middleware/auth");
 const Product = require("../models/product");
 
 router.get("/all-orders", async (req, res) => {
+  const { orderNumber, status, startDate, endDate } = req.query;
+
+  const filter = {};
+
+  if (orderNumber) {
+    filter.orderNumber = { $regex: orderNumber, $options: "i" }; // Case-insensitive search
+  }
+
+  if (status) {
+    filter.status = status; // Filter by status
+  }
+
+  if (startDate || endDate) {
+    filter.orderDate = {};
+    if (startDate) {
+      filter.orderDate.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      filter.orderDate.$lte = new Date(endDate);
+    }
+  }
+
   try {
-    const orders = await Order.find({}).populate(false); //
+    const orders = await Order.find(filter).populate(false); // Populate as needed
     const ordersWithProductNames = await Promise.all(
       orders.map(async (order) => {
         const itemsWithDetails = await Promise.all(
           order.items.map(async (item) => {
-            const product = await Product.findById(item.productId); // Fetch product by ID
+            const product = await Product.findById(item.productId);
             return {
-              productName: product ? product.name : "Unknown", // Use product name or a default value
+              productName: product ? product.name : "Unknown",
               quantity: item.quantity,
               price: item.price,
               size: item.size,
@@ -25,7 +47,7 @@ router.get("/all-orders", async (req, res) => {
         );
         return {
           ...order.toObject(),
-          items: itemsWithDetails, // Replace items with detailed items
+          items: itemsWithDetails,
         };
       })
     );
@@ -56,6 +78,7 @@ router.post("/", auth, async (req, res) => {
       paymentMethod,
       deliveryAddress,
       items,
+      isNew: true,
     });
     await newOrder.save();
     res.status(201).json(newOrder);
@@ -80,6 +103,32 @@ router.delete("/delete/:order_id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.patch("/patch/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status, isNewOrder: false },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Order updated successfully", updatedOrder });
+    console.log(updatedOrder);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the order" });
   }
 });
 
