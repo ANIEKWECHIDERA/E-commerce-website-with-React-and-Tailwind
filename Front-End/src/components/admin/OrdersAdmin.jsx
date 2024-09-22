@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const OrdersAdmin = () => {
+const OrdersAdmin = ({ setNewOrdersCount }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,6 +11,7 @@ const OrdersAdmin = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [previousNewOrdersCount, setPreviousNewOrdersCount] = useState(0);
 
   // Fetch orders from the API with search and filter
   useEffect(() => {
@@ -32,6 +33,9 @@ const OrdersAdmin = () => {
           (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
         );
         setOrders(sortedOrder);
+
+        const newOrders = sortedOrder.filter(order => order.isNewOrder);
+        setNewOrdersCount(newOrders.length);
       } catch (error) {
         setError(error.response?.data?.message || 'Failed to fetch orders');
       } finally {
@@ -40,15 +44,18 @@ const OrdersAdmin = () => {
     };
 
     fetchOrders();
+    const intervalId = setInterval(fetchOrders, 5000);
+    return () => clearInterval(intervalId);
   }, [searchTerm, statusFilter, startDate, endDate]);
 
   // Notify about new orders
   useEffect(() => {
     const newOrders = orders.filter(order => order.isNewOrder);
-    if (newOrders.length > 0) {
+    if (newOrders.length > 0 && newOrders.length !== previousNewOrdersCount) {
       toast.success(`You have ${newOrders.length} new order(s)!`);
+      setPreviousNewOrdersCount(newOrders.length);
     }
-  }, [orders]);
+  }, [orders, setPreviousNewOrdersCount]);
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {

@@ -10,13 +10,14 @@ const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [newOrdersCount, setNewOrdersCount] = useState(0);
 
   const renderContent = () => {
     switch (activeSection) {
       case "overview":
         return <OverView />;
       case "orders":
-        return <OrdersAdmin />;
+        return <OrdersAdmin setNewOrdersCount={setNewOrdersCount} />;
       case "blog":
         return <BlogAdmin />;
       case "add-products":
@@ -100,7 +101,10 @@ const AdminPage = () => {
               }`}
               onClick={() => setActiveSection("orders")}
             >
-              Orders
+              Orders{" "}
+              {newOrdersCount > 0 && (
+                <span className="text-green-500">({newOrdersCount})</span>
+              )}
             </p>
             <p
               className={`block text-lg border-b text-gray-500 hover:text-gray-950 transition-colors cursor-pointer ${
