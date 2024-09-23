@@ -58,8 +58,12 @@ router.get("/all-orders", async (req, res) => {
 });
 // Fetch user order history
 router.get("/:userId", auth, async (req, res) => {
+  const { userId } = req.params;
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
   try {
-    const orders = await Order.find({ userId: req.params.userId });
+    const orders = await Order.find({ userId });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
