@@ -15,7 +15,7 @@ const Blog = () => {
     <div>
       <div className="sm:mt-32  w-full py-8">
         <h1 className="prata-regular text-2xl sm:text-4xl text-center text-gray-700 font-medium">
-          <Title text1={"WELCOME"} text2={"TO OUR BLOG"} />
+          <Title text1={"WELCOME TO"} text2={"OUR BLOG"} />
         </h1>
       </div>
 

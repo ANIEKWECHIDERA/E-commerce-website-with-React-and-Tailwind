@@ -37,6 +37,7 @@ const deleteAccountRoute = require("./routes/deleteAccount");
 const verifyAccountRoute = require("./routes/verifyPassword");
 const checkAdminTokenRoute = require("./routes/checkAdminToken");
 const blogRoute = require("./routes/blogpostCRUD");
+const overviewRoute = require("./routes/overview");
 
 app.use("/api/products", productRoute);
 app.use("/api/auth", authRoutes);
@@ -49,6 +50,7 @@ app.use("/api/", deleteAccountRoute);
 app.use("/api/", verifyAccountRoute);
 app.use("/api/verify-token", checkAdminTokenRoute);
 app.use("/api/", blogRoute);
+app.use("/api/", overviewRoute);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

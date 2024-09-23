@@ -1,6 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const OverView = () => {
+  const [data, setData] = useState({
+    totalCustomers: 0,
+    totalProducts: 0,
+    productsByCategory: {},
+    totalOrders: 0,
+    activeOrders: 0,
+    deliveredOrders: 0,
+  });
+
+  useEffect(() => {
+    const fetchOverviewData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/overview');
+        setData(response.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setTimeout(() => fetchOverviewData(), 30000); // Call again after 5 seconds
+      }
+    };
+
+    fetchOverviewData();
+  }, []);
+
+  setTimeout(() => fetchOverviewData(), 5000);
+
   return (
     <div className="bg-white p-6 rounded-lg ">
       {/* Header Section */}
@@ -18,7 +45,9 @@ const OverView = () => {
           <h2 className="text-xl font-semibold text-gray-700">
             Total Customers
           </h2>
-          <p className="text-3xl font-bold text-gray-900">1,245</p>{' '}
+          <p className="text-3xl font-bold text-gray-900">
+            {data.totalCustomers}
+          </p>{' '}
           {/* Replace with dynamic data */}
         </div>
 
@@ -27,7 +56,9 @@ const OverView = () => {
           <h2 className="text-xl font-semibold text-gray-700">
             Total Products
           </h2>
-          <p className="text-3xl font-bold text-gray-900">325</p>{' '}
+          <p className="text-3xl font-bold text-gray-900">
+            {data.totalProducts}
+          </p>{' '}
           {/* Replace with dynamic data */}
         </div>
 
@@ -37,26 +68,31 @@ const OverView = () => {
             Products by Category
           </h2>
           <ul className="space-y-2 text-gray-900">
-            <li>Jackets: 45</li> {/* Replace with dynamic data */}
-            <li>Suit: 120</li>
-            <li>Blazers: 50</li>
-            <li>Shoes: 80</li>
-            <li>Belts: 30</li>
-            <li>Accessories: 50</li>
+            {Object.entries(data.productsByCategory).map(
+              ([category, count]) => (
+                <li key={category}>
+                  {category}: {count}
+                </li>
+              )
+            )}
           </ul>
         </div>
 
         {/* Number of Blog Posts */}
         <div className="bg-red-50 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-700">Blog Posts</h2>
-          <p className="text-3xl font-bold text-gray-900">78</p>{' '}
+          <p className="text-3xl font-bold text-gray-900">
+            {data.totalBlogs}
+          </p>{' '}
           {/* Replace with dynamic data */}
         </div>
 
         {/* Number of Active Orders */}
         <div className="bg-purple-50 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-700">Active Orders</h2>
-          <p className="text-3xl font-bold text-gray-900">34</p>{' '}
+          <p className="text-3xl font-bold text-gray-900">
+            {data.activeOrders}
+          </p>{' '}
           {/* Replace with dynamic data */}
         </div>
 
@@ -65,7 +101,9 @@ const OverView = () => {
           <h2 className="text-xl font-semibold text-gray-700">
             Delivered Orders
           </h2>
-          <p className="text-3xl font-bold text-gray-900">192</p>{' '}
+          <p className="text-3xl font-bold text-gray-900">
+            {data.deliveredOrders}
+          </p>{' '}
           {/* Replace with dynamic data */}
         </div>
       </div>

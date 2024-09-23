@@ -19,7 +19,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   isNewOrder: { type: Boolean, default: true },
-  status: { type: String, default: "pending" },
+  status: { type: String, default: "Pending" },
 });
 
 // Middleware to generate order number before saving
