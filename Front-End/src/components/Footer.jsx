@@ -34,7 +34,8 @@ const Footer = () => {
       <div className="flex flex-col gap-10 text-center text-gray-600">
         <hr />
         <p className="py-5 text-sm text-center">
-          Copyright 2024 mophixconcept.com - All Rights Reserved
+          Copyright {new Date().getFullYear()} mophixconcept.com - All Rights
+          Reserved
         </p>
       </div>
     </div>

@@ -2,11 +2,11 @@ import React from 'react';
 
 const BlogTab = ({ img, title, description, readMore }) => {
   return (
-    <div className=" mb-12 h-full shadow-md p-8 md:hover:shadow-sm ">
+    <div className=" mb-12 h-full shadow-md py-8 px-4 md:hover:shadow-sm ">
       <div className="p-3 flex flex-col items-center sm:flex-row justify-between md:flex-col ">
-        <div className="overflow-hidden">
+        <div className="overflow-hidden h-[480px]">
           <img
-            className="hover:scale-110 transition ease-in-out w-[240px] lg:w-80 object-cover"
+            className="hover:scale-110 h-full transition ease-in-out w-[240px] lg:w-80 object-cover"
             src={img}
             alt="post image"
           />
@@ -16,7 +16,7 @@ const BlogTab = ({ img, title, description, readMore }) => {
             {title}
           </h3>
           <p
-            className="w-full mx-auto sm:w-[250px] text-justify text-gray-600"
+            className="w-full mx-auto sm:w-[300px] text-justify text-gray-600"
             dangerouslySetInnerHTML={{ __html: description }}
           ></p>{' '}
           <a
