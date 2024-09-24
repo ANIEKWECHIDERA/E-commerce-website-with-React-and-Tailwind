@@ -1,16 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { blogAssets, blogData } from "../assets/blog/blogData";
 import NewsLetterBox from "../components/NewsLetterBox";
 import BlogTab from "../components/BlogTab";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import Title from "../components/Title";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Blog = () => {
+  const [blogs, setBlogs] = useState([]);
   const [visible, setVisibility] = useState(false);
   const [visible2, setVisibility2] = useState(false);
 
-  const { products } = useContext(ShopContext);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/blogs");
+        const sortedBlogs = response.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setBlogs(sortedBlogs);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    };
+    fetchBlogs();
+  }, {});
+
+  const recentPosts = blogs.slice(0, 3);
+
   return (
     <div>
       <div className="sm:mt-32  w-full py-8">
@@ -61,15 +81,17 @@ const Blog = () => {
               id="recent-articles-content"
             >
               <ul className="list-disc ml-4 text-gray-500 hover:text-gray-700">
-                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
-                  Latest Suit Trends
-                </li>
-                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
-                  Accessorizing Your Suit
-                </li>
-                <li className=" mb-3 md:hover:underline text-gray-500 hover:text-gray-700 cursor-pointer">
-                  Blazer Styles for 2024
-                </li>
+                {recentPosts.map((post) => (
+                  <li key={post._id} className=" mb-3 ">
+                    <Link
+                      to={`/blog/${post._id}`}
+                      className="md:hover:underline
+                     text-gray-500 hover:text-gray-700 cursor-pointer"
+                    >
+                      {post.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -124,58 +146,22 @@ const Blog = () => {
         <hr className="w-full md:hidden" />
 
         <div className="md:w-2/3 md:grid md:grid-cols-1 md:gap-6 md:gap-y-4 lg:grid-cols-2 ">
-          <div className="mt-8">
-            <div>
-              {blogData.map((blog, index) => (
-                <BlogTab
-                  key={index}
-                  img={blog.img}
-                  title={blog.title}
-                  description={blog.description}
-                />
-              ))}
+          {blogs.map((blog) => (
+            <div key={blog._id} className="mt-8 bg-slate-50">
+              <BlogTab
+                img={blog.image}
+                title={blog.title}
+                description={`${blog.content.slice(0, 100)}...`}
+                readMore={`/blog/${blog._id}`}
+              />
             </div>
-          </div>
-          <div className="mt-8">
-            <div>
-              {blogData.map((blog, index) => (
-                <BlogTab
-                  key={index}
-                  img={blog.img}
-                  title={blog.title}
-                  description={blog.description}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="mt-8">
-            <div>
-              {blogData.map((blog, index) => (
-                <BlogTab
-                  key={index}
-                  img={blog.img}
-                  title={blog.title}
-                  description={blog.description}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="mt-8">
-            <div>
-              {blogData.map((blog, index) => (
-                <BlogTab
-                  key={index}
-                  img={blog.img}
-                  title={blog.title}
-                  description={blog.description}
-                />
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      <NewsLetterBox />
+      <div className="sm:mt-32 w-full py-8">
+        <NewsLetterBox />
+      </div>
     </div>
   );
 };

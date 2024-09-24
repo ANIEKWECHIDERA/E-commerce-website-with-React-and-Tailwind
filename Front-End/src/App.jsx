@@ -20,6 +20,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 import AdminRoute from "./components/admin/AdminRoute";
+import FullBlogArticle from "./components/FullBlogArticle";
 
 const App = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const App = () => {
         />
         <Route path="/collection" element={<Collection />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" Component={FullBlogArticle} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/product/:productId" element={<Product />} />

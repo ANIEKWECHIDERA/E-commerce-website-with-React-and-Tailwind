@@ -46,6 +46,16 @@ router.get("/blogs", async (req, res) => {
     res.status(500).json({ message: "Error fetching blog posts" });
   }
 });
+router.get("/blog/:id", async (req, res) => {
+  try {
+    const post = await blogPost.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "post Not Found" });
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching blog posts" });
+  }
+});
 
 router.put("/blog/:id", upload.single("media"), async (req, res) => {
   try {
