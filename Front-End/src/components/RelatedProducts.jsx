@@ -28,7 +28,7 @@ const RelatedProducts = ({ category, selectedProductId }) => {
             id={item._id}
             name={item.name}
             price={item.price}
-            image={item.image}
+            image={item.images[0]}
             onClick={() => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
