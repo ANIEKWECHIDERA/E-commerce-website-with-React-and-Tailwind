@@ -35,11 +35,28 @@ router.post("/add", async (req, res) => {
 });
 
 //Edit Product by ID
-router.put("/edit/:id", async (req, res) => {
+router.put("/edit/:id", upload.single("image"), async (req, res) => {
+  const { name, category, price, description, sizes } = req.body;
   try {
+    let updatedProductData = {
+      name,
+      category,
+      price,
+      description,
+      sizes,
+    };
+
+    if (req.file) {
+      const file = req.file.path;
+      const result = await cloudinary.uploader.upload(file, {
+        folder: "Product_media",
+        resource_type: "image",
+      });
+      updatedProductData.images = [result.secure_url];
+    }
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body }, // Update product details
+      { $set: updatedProductData }, // Update product details
       { new: true } // Return the updated product
     );
     res.status(200).json(updatedProduct);

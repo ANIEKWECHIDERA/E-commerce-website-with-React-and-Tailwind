@@ -11,6 +11,7 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
   const [images, setImages] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (product) {
@@ -29,20 +30,34 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
     setImages(files.map(file => URL.createObjectURL(file)));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (name && category && price) {
-      const updatedProduct = {
-        _id: product._id, // Use _id instead of id
-        name,
-        category,
-        price,
-        description,
-        images,
-        sizes,
-      };
-      onSave(updatedProduct);
-      toast.success('Product updated successfully!');
-      onClose();
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append('image', selectedFiles[0]); // Append the first selected image file
+      formData.append('name', name);
+      formData.append('category', category);
+      formData.append('price', price);
+      formData.append('description', description);
+      formData.append('sizes', sizes);
+
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/products/edit/${product._id}`,
+          {
+            method: 'PUT',
+            body: formData,
+          }
+        );
+
+        const updatedProduct = await response.json();
+        onSave(updatedProduct);
+        setIsLoading(false);
+        toast.success('Product updated successfully!');
+        onClose();
+      } catch (error) {
+        toast.error('Error updating product.');
+      }
     } else {
       toast.error('Please fill out all required fields.');
     }
@@ -61,6 +76,14 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="flex flex-col items-center">
+            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16 mb-4"></div>
+            <p className="text-white">Uploading...</p>
+          </div>
+        </div>
+      )}
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
         <div className="space-y-4">
