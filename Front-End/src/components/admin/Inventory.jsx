@@ -1,104 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Modal from './InventoryModal';
-
-const mockProducts = [
-  {
-    id: 'P001',
-    name: 'Leather Jacket',
-    category: 'Jacket',
-    price: 150,
-    description: 'High-quality leather jacket with a stylish design.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['M', 'L'],
-  },
-  {
-    id: 'P002',
-    name: 'Blazer',
-    category: 'Blazer',
-    price: 120,
-    description: 'Elegant blazer suitable for formal occasions.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['S', 'M', 'L'],
-  },
-  {
-    id: 'P003',
-    name: 'Running Shoes',
-    category: 'Shoe',
-    price: 90,
-    description: 'Comfortable running shoes with great cushioning.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['L', 'XL'],
-  },
-  {
-    id: 'P004',
-    name: 'Casual Belt',
-    category: 'Belt',
-    price: 40,
-    description: 'Stylish casual belt made of high-quality leather.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['M', 'L', 'XL'],
-  },
-  {
-    id: 'P005',
-    name: 'Silk Tie',
-    category: 'Tie',
-    price: 30,
-    description: 'Luxury silk tie with a classic design.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: [],
-  },
-  {
-    id: 'P006',
-    name: 'Canvas Backpack',
-    category: 'Accessory',
-    price: 70,
-    description: 'Durable canvas backpack with multiple compartments.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: [],
-  },
-  {
-    id: 'P007',
-    name: 'Wool Coat',
-    category: 'Jacket',
-    price: 200,
-    description: 'Warm wool coat perfect for winter.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['M', 'L', 'XL'],
-  },
-  {
-    id: 'P008',
-    name: 'Formal Shoes',
-    category: 'Shoe',
-    price: 110,
-    description: 'Elegant formal shoes suitable for office wear.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['M', 'L'],
-  },
-  {
-    id: 'P009',
-    name: 'Leather Belt',
-    category: 'Belt',
-    price: 50,
-    description: 'Classic leather belt with a metal buckle.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: ['L', 'XL'],
-  },
-  {
-    id: 'P010',
-    name: 'Pocket Square',
-    category: 'Accessory',
-    price: 20,
-    description: 'Elegant pocket square for formal attire.',
-    images: ['https://via.placeholder.com/150'],
-    sizes: [],
-  },
-];
+import { ShopContext } from '../../context/ShopContext';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [editProduct, setEditProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const { currency } = useContext(ShopContext);
 
   const handleEdit = product => {
     setEditProduct(product);
@@ -230,7 +139,8 @@ const Inventory = () => {
                     Category: {product.category}
                   </p>
                   <p className="text-sm text-gray-600 mb-2">
-                    Price: ${product.price}
+                    Price: {currency}
+                    {product.price}
                   </p>
                   <p className="text-sm text-gray-600 mb-2">
                     Description: {product.description}
