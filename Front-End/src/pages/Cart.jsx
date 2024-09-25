@@ -27,7 +27,6 @@ const Cart = () => {
           },
         });
         setCartData(response.data);
-        console.log(response.data);
 
         setIsCartEmpty(response.data.length === 0);
       } catch (error) {
@@ -64,7 +63,7 @@ const Cart = () => {
       });
       await fetchCartCount();
       setCartData(response.data);
-      console.log(response.data);
+
       setIsCartEmpty(response.data.length === 0);
     } catch (error) {
       console.error("Error updating cart quantity:", error);
@@ -128,7 +127,7 @@ const Cart = () => {
                 <div className="flex items-start gap-6">
                   <img
                     className="w-16 sm:w-20"
-                    src={productData.image}
+                    src={productData.images}
                     alt="product image"
                   />
                   <div>
