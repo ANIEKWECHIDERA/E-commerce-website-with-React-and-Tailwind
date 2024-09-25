@@ -12,6 +12,24 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relevant");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filterProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const pageNumbers = [];
+
+  for (
+    let i = 1;
+    i <= Math.ceil(filterProducts.length / productsPerPage);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
+
   // Filter products based on category and subcategory
   const toggleCategory = (e) => {
     if (Category.includes(e.target.value)) {
@@ -88,7 +106,7 @@ const Collection = () => {
   return (
     <div className="sm:mt-40 flex flex-col sm:flex-row gap-1 sm:gap-10 pt-2 border-t">
       {/* Filter Options */}
-      <div className="min-w-60  bg-white ">
+      <div className="min-w-60 sm:sticky top-20 h-full bg-white ">
         <p
           onClick={() => setShowFilter(!showFilter)}
           className="my-2 text-xl flex items-center cursor-pointer gap-2"
@@ -113,9 +131,9 @@ const Collection = () => {
                 onChange={toggleCategory}
                 className="w-3"
                 type="checkbox"
-                value={"Men"}
+                value={"Jacket"}
               />
-              Men
+              Jacket
             </p>
 
             <p className="flex gap-2">
@@ -123,58 +141,85 @@ const Collection = () => {
                 onChange={toggleCategory}
                 className="w-3"
                 type="checkbox"
-                value={"Women"}
+                value={"Blazer"}
               />
-              Women
+              Blazer
             </p>
             <p className="flex gap-2">
               <input
                 onChange={toggleCategory}
                 className="w-3"
                 type="checkbox"
-                value={"Kids"}
+                value={"Shoe"}
               />
-              Kids
+              Shoe
+            </p>
+            <p className="flex gap-2">
+              <input
+                onChange={toggleCategory}
+                className="w-3"
+                type="checkbox"
+                value={"Tie"}
+              />
+              Tie
+            </p>
+            <p className="flex gap-2">
+              <input
+                onChange={toggleCategory}
+                className="w-3"
+                type="checkbox"
+                value={"Belt"}
+              />
+              Belt
+            </p>
+            <p className="flex gap-2">
+              <input
+                onChange={toggleCategory}
+                className="w-3"
+                type="checkbox"
+                value={"Accessories"}
+              />
+              Accessories
             </p>
           </div>
         </div>
         {/* Subcategory Filter */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 my-5 ${
-            showFilter ? "" : "hidden"
-          } sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPE</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input
-                onChange={toggleSubCategory}
-                className="w-3"
-                type="checkbox"
-                value={"Topwear"}
-              />
-              Top Wear
-            </p>
-            <p className="flex gap-2">
-              <input
-                onChange={toggleSubCategory}
-                className="w-3"
-                type="checkbox"
-                value={"Bottomwear"}
-              />
-              Bottom Wear
-            </p>
-            <p className="flex gap-2">
-              <input
-                onChange={toggleSubCategory}
-                className="w-3"
-                type="checkbox"
-                value={"Winterwear"}
-              />
-              Winter Wear
-            </p>
-          </div>
+        {/* <div
+        className={`border border-gray-300 pl-5 py-3 my-5 ${
+          showFilter ? "" : "hidden"
+        } sm:block`}
+      >
+        <p className="mb-3 text-sm font-medium">TYPE</p>
+        <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
+          <p className="flex gap-2">
+            <input
+              onChange={toggleSubCategory}
+              className="w-3"
+              type="checkbox"
+              value={"Topwear"}
+            />
+            Top Wear
+          </p>
+          <p className="flex gap-2">
+            <input
+              onChange={toggleSubCategory}
+              className="w-3"
+              type="checkbox"
+              value={"Bottomwear"}
+            />
+            Bottom Wear
+          </p>
+          <p className="flex gap-2">
+            <input
+              onChange={toggleSubCategory}
+              className="w-3"
+              type="checkbox"
+              value={"Winterwear"}
+            />
+            Winter Wear
+          </p>
         </div>
+      </div> */}
       </div>
       {/* the right side */}
       <div className="flex-1">
@@ -195,7 +240,7 @@ const Collection = () => {
         </div>
         {/* map the products here*/}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-          {filterProducts.map((item, index) => (
+          {currentProducts.map((item, index) => (
             <ProductItem
               key={index}
               name={item.name}
@@ -203,6 +248,20 @@ const Collection = () => {
               price={item.price}
               image={item.image}
             />
+          ))}
+        </div>
+        <div className="text-center text-gray-600 mt-20">
+          {pageNumbers.map((number) => (
+            <button
+              className="text-xs py-2 px-3 mr-5 bg-slate-200 rounded-full hover:bg-slate-500 hover:text-gray-50 transition"
+              key={number}
+              onClick={() => {
+                setCurrentPage(number);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              {number}
+            </button>
           ))}
         </div>
       </div>
