@@ -36,7 +36,7 @@ const Blog = () => {
       }
     };
     fetchBlogs();
-  }, {});
+  }, []);
 
   const recentPosts = blogs.slice(0, 3);
 

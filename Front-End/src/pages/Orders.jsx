@@ -88,7 +88,7 @@ const Order = () => {
                   >
                     <img
                       className="w-16 sm:w-20"
-                      src={item.image}
+                      src={item.images}
                       alt="product"
                     />
                     <div>

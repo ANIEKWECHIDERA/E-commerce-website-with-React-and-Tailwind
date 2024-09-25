@@ -21,7 +21,7 @@ const Product = () => {
       if (item._id === productId) {
         setProductData(item);
         // console.log(item);
-        setImage(item.image[0]);
+        setImage(item.images[0]);
         return null;
       }
     });

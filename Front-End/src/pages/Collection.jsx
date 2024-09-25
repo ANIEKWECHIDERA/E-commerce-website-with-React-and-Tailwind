@@ -39,14 +39,6 @@ const Collection = () => {
     }
   };
 
-  const toggleSubCategory = (e) => {
-    if (subCategory.includes(e.target.value)) {
-      setSubCategory((prev) => prev.filter((item) => item !== e.target.value));
-    } else {
-      setSubCategory((prev) => [...prev, e.target.value]);
-    }
-  };
-
   const applyFilter = () => {
     let productsCopy = products.slice();
 
@@ -177,49 +169,12 @@ const Collection = () => {
                 onChange={toggleCategory}
                 className="w-3"
                 type="checkbox"
-                value={"Accessories"}
+                value={"Accessory"}
               />
               Accessories
             </p>
           </div>
         </div>
-        {/* Subcategory Filter */}
-        {/* <div
-        className={`border border-gray-300 pl-5 py-3 my-5 ${
-          showFilter ? "" : "hidden"
-        } sm:block`}
-      >
-        <p className="mb-3 text-sm font-medium">TYPE</p>
-        <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-          <p className="flex gap-2">
-            <input
-              onChange={toggleSubCategory}
-              className="w-3"
-              type="checkbox"
-              value={"Topwear"}
-            />
-            Top Wear
-          </p>
-          <p className="flex gap-2">
-            <input
-              onChange={toggleSubCategory}
-              className="w-3"
-              type="checkbox"
-              value={"Bottomwear"}
-            />
-            Bottom Wear
-          </p>
-          <p className="flex gap-2">
-            <input
-              onChange={toggleSubCategory}
-              className="w-3"
-              type="checkbox"
-              value={"Winterwear"}
-            />
-            Winter Wear
-          </p>
-        </div>
-      </div> */}
       </div>
       {/* the right side */}
       <div className="flex-1">
@@ -246,7 +201,7 @@ const Collection = () => {
               name={item.name}
               id={item._id}
               price={item.price}
-              image={item.image}
+              image={item.images[0]}
             />
           ))}
         </div>
