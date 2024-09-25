@@ -59,7 +59,6 @@ const OverView = () => {
           <p className="text-3xl font-bold text-gray-900">
             {data.totalProducts}
           </p>{' '}
-          {/* Replace with dynamic data */}
         </div>
 
         {/* Total Products per Category */}

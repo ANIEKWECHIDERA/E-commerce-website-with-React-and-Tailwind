@@ -235,7 +235,11 @@ const BlogAdmin = () => {
             setNewPost({ ...newPost, content: data });
           }}
         />
-        <input type="file" onChange={handleFileChange} className="mb-4" />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="mb-4 mt-4 border rounded p-2"
+        />
         {isPreviewVisible && (
           <div className="mb-4 relative">
             <img

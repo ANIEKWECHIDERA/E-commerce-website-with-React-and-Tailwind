@@ -31,7 +31,6 @@ const Blog = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setBlogs(sortedBlogs);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
