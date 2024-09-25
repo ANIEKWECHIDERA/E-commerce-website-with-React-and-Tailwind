@@ -26,7 +26,7 @@ const DeliveryInfoForm = () => {
 
       setUserId(response.data._id);
     } catch (err) {
-      setError(err);
+      setError('Error fetching user profile');
       console.error('Error fetching user profile:', err);
     } finally {
       setLoading(false);
@@ -38,19 +38,21 @@ const DeliveryInfoForm = () => {
   }, []);
 
   useEffect(() => {
-    fetchUserId();
-    const fetchDeliveryInfo = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}/delivery-info`
-        );
-        setFormData(response.data.deliveryInfo);
-      } catch (error) {
-        console.error('Error fetching delivery info:', error);
-      }
-    };
+    if (userId) {
+      const fetchDeliveryInfo = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/users/${userId}/delivery-info`
+          );
+          setFormData(response.data.deliveryInfo || formData); // Use existing formData if deliveryInfo is undefined
+        } catch (error) {
+          setError('Error fetching delivery info');
+          console.error('Error fetching delivery info:', error);
+        }
+      };
 
-    fetchDeliveryInfo();
+      fetchDeliveryInfo();
+    }
   }, [userId]);
 
   const handleChange = e => {
@@ -61,7 +63,6 @@ const DeliveryInfoForm = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -74,13 +75,18 @@ const DeliveryInfoForm = () => {
 
       alert('Delivery information saved successfully!');
     } catch (error) {
+      setError('Error saving delivery info');
       console.error('Error saving delivery info:', error);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col  gap-4 w-full sm:max-w-[480px]"
+      className="flex flex-col gap-4 w-full sm:max-w-[480px]"
     >
       <div className="text-xl sm:text-2xl my-3">
         <Title text1={'DELIVERY'} text2={'INFORMATION'} />
@@ -93,6 +99,7 @@ const DeliveryInfoForm = () => {
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
           type="text"
           placeholder="First Name"
+          required
         />
         <input
           name="lastName"
@@ -101,6 +108,7 @@ const DeliveryInfoForm = () => {
           className="border border-gray-300 rounded py-1.5 px-3.5 w-full"
           type="text"
           placeholder="Last Name"
+          required
         />
       </div>
       <input
