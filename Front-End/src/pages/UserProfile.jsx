@@ -104,7 +104,7 @@ const UserProfile = () => {
       <div>
         <div className="sm:hidden sm:mt-40 text-right pt-10 border-t pr-5 text-2xl">
           <button onClick={handleModalToggle}>
-            <i class="bi bi-three-dots"></i>
+            <i className="bi bi-three-dots"></i>
           </button>
         </div>
         <div className="sm:mt-40 sm:flex w-full justify-around">
