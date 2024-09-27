@@ -8,6 +8,10 @@ const CartTotal = () => {
 
   const getCartAmount = () => totalAmount;
 
+  useEffect(() => {
+    getCartAmount();
+  }, []);
+
   return (
     <div className="w-full">
       <div className="text-2xl">
