@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
 
 const LogIn = () => {
   const [currentState, setCurrentState] = useState("Sign Up");
@@ -12,7 +13,7 @@ const LogIn = () => {
     phoneNumber: "",
     password: "",
   });
-
+  const { handleUserLogin } = useContext(ShopContext);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,8 @@ const LogIn = () => {
         }, 2000);
 
         setTimeout(() => {
-          navigate("/"); // Redirect to the home page or the intended page
+          navigate("/");
+          handleUserLogin(); // Redirect to the home page or the intended page
         }, 4000);
       } else {
         //implement login logic here
@@ -56,6 +58,7 @@ const LogIn = () => {
         );
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
+
           setTimeout(() => {
             setLoading(false);
             setSuccess("Logged in successfully!");
@@ -64,6 +67,7 @@ const LogIn = () => {
           setTimeout(() => {
             setLoading(false);
             navigate("/collection");
+            handleUserLogin();
           }, 3000);
         }
       }
