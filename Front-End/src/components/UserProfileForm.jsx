@@ -24,7 +24,10 @@ const UserProfileForm = () => {
         const response = await axios.get('http://localhost:5000/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setFormData(response.data);
+        setFormData(prevData => ({
+          ...prevData,
+          ...response.data,
+        }));
       } catch (error) {
         console.error(error);
         setErrorMessage('Error fetching profile');

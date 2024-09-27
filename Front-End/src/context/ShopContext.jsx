@@ -7,7 +7,7 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (Props) => {
   const currency = "₦";
-  const deliveryFee = 10;
+  const deliveryFee = 5000;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
@@ -15,7 +15,7 @@ const ShopContextProvider = (Props) => {
   const [products, setProducts] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-
+  const [lastName, setLastName] = useState({ lastName: "" });
   const fetchProducts = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/products/all");
@@ -70,6 +70,21 @@ const ShopContextProvider = (Props) => {
     fetchCartCount();
     fetchCartItems();
   }, [cartItems]);
+
+  const handleUserLogin = async () => {
+    fetchCartCount();
+    fetchCartItems();
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/api/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLastName({ lastName: response.data.lastName });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addToCart = async (itemId, size) => {
     if (!size) {
@@ -246,6 +261,8 @@ const ShopContextProvider = (Props) => {
     fetchUserId,
     clearCart,
     fetchProducts,
+    handleUserLogin,
+    lastName,
   };
 
   return (
