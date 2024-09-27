@@ -32,7 +32,7 @@ const PlaceOrder = () => {
       }
     };
     getDeliveryAddress();
-  }, []);
+  }, [fetchUserId]);
 
   const handleOrder = async () => {
     const userId = await fetchUserId();
@@ -61,7 +61,10 @@ const PlaceOrder = () => {
       console.error("Error placing order:", error);
     }
   };
-
+  const isOrderDisabled =
+    !deliveryInfo.homeAddress ||
+    cartItems.length === 0 ||
+    deliveryInfo.homeAddress.toLowerCase() === "null";
   return (
     <div className=" sm:mt-40 flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t">
       {/* Left side */}
@@ -113,7 +116,12 @@ const PlaceOrder = () => {
           </div>
           <button
             onClick={handleOrder}
-            className="mt-8 w-full bg-green-400 hover:bg-green-500 text-white font-medium py-3 px-4 rounded"
+            disabled={isOrderDisabled}
+            className={`mt-8 w-full ${
+              isOrderDisabled
+                ? "bg-gray-300"
+                : "bg-green-400 hover:bg-green-500"
+            } text-white font-medium py-3 px-4 rounded`}
           >
             PLACE ORDER
           </button>

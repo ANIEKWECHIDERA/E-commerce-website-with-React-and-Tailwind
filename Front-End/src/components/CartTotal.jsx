@@ -12,6 +12,10 @@ const CartTotal = () => {
     getCartAmount();
   }, []);
 
+  const formatPrice = amount => {
+    return new Intl.NumberFormat().format(amount);
+  };
+
   return (
     <div className="w-full">
       <div className="text-2xl">
@@ -21,14 +25,14 @@ const CartTotal = () => {
         <div className="flex justify-between">
           <p>Sub-Total</p>
           <p>
-            {currency} {getCartAmount().toFixed(2)}
+            {currency} {formatPrice(getCartAmount().toFixed(2))}
           </p>
         </div>
         <hr />
         <div className="flex justify-between">
           <p>Shipping Fee</p>
           <p>
-            {currency} {deliveryFee.toFixed(2)}
+            {currency} {formatPrice(deliveryFee.toFixed(2))}
           </p>
         </div>
         <hr />
@@ -36,7 +40,7 @@ const CartTotal = () => {
           <b>Total</b>
           <b>
             {currency}
-            {(getCartAmount() + deliveryFee).toFixed(2)}
+            {formatPrice((getCartAmount() + deliveryFee).toFixed(2))}
           </b>
         </div>
         <hr />

@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+
 import { assets } from '../assets/assets';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 
 const NavBar = () => {
-  const [loading, setLoading] = useState(true);
-
   const [visible, setVisible] = useState(false);
   const { setShowSearch, cartCount, lastName } = useContext(ShopContext);
   const navigate = useNavigate();
@@ -87,7 +85,7 @@ const NavBar = () => {
               <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
                 <div className="flex flex-col gap-2 w-40 py-3 px-3 bg-slate-100 text-gray-500 rounded">
                   <div>
-                    {isAuthenticated && !loading && (
+                    {isAuthenticated && (
                       <p className="text-black underline font-semibold">
                         Hello, {lastName.lastName}
                       </p>
@@ -171,6 +169,17 @@ const NavBar = () => {
               >
                 Blog
               </NavLink>
+              {isAuthenticated && (
+                <NavLink
+                  onClick={() => {
+                    setVisible(false);
+                  }}
+                  className="py-2 pl-5 border"
+                  to="/orders"
+                >
+                  Orders
+                </NavLink>
+              )}
               <NavLink
                 onClick={() => setVisible(false)}
                 className="py-2 pl-5 border"

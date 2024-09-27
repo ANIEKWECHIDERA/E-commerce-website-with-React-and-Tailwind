@@ -4,6 +4,7 @@ const router = express.Router();
 const cloudinary = require("../config/cloudinaryConfig");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+const auth = require("../middleware/auth");
 
 router.get("/all", async (req, res) => {
   try {
@@ -85,6 +86,23 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     res.status(200).json({ imageUrl: result.secure_url });
   } catch (err) {
     res.status(500).json({ error: "Image upload failed." });
+  }
+});
+
+// Fetch user orders
+router.get("/:productId", auth, async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ message: "Error fetching products." });
   }
 });
 

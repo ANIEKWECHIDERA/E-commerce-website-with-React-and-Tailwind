@@ -27,10 +27,6 @@ const ShopContextProvider = (Props) => {
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   const fetchCartCount = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/cartCount", {
@@ -66,11 +62,6 @@ const ShopContextProvider = (Props) => {
     }
   };
 
-  useEffect(() => {
-    fetchCartCount();
-    fetchCartItems();
-  }, [cartItems]);
-
   const handleUserLogin = async () => {
     fetchCartCount();
     fetchCartItems();
@@ -85,6 +76,16 @@ const ShopContextProvider = (Props) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+    handleUserLogin();
+  }, []);
+
+  useEffect(() => {
+    fetchCartCount();
+    fetchCartItems();
+  }, [cartItems]);
 
   const addToCart = async (itemId, size) => {
     if (!size) {

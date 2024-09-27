@@ -102,6 +102,10 @@ const OrdersAdmin = ({ setNewOrdersCount }) => {
       { text: 'Cancelled', color: 'red' },
     ];
 
+    const formatPrice = amount => {
+      return new Intl.NumberFormat().format(amount);
+    };
+
     return (
       <div className="bg-white shadow-md rounded-lg p-6 mb-4">
         <h4 className="text-lg font-semibold mb-2 flex items-center">
@@ -119,15 +123,17 @@ const OrdersAdmin = ({ setNewOrdersCount }) => {
               <span className="font-medium">
                 Product Name: {item.productName}
               </span>{' '}
-              - Quantity: {item.quantity} - Sub-Total: $
-              {item.price * item.quantity}
+              - Quantity: {item.quantity} - Sub-Total: ₦
+              {formatPrice(item.price * item.quantity)}
             </li>
           ))}
           <li className="mt-10 border-t">
-            Total: - $
-            {order.items.reduce(
-              (total, item) => total + item.price * item.quantity,
-              0
+            Total: - ₦
+            {formatPrice(
+              order.items.reduce(
+                (total, item) => total + item.price * item.quantity,
+                0
+              )
             )}
           </li>
         </ul>

@@ -31,6 +31,10 @@ const Product = () => {
     fetchProductProductData();
   }, [productId, products]);
 
+  const formatPrice = (amount) => {
+    return new Intl.NumberFormat().format(amount);
+  };
+
   return productData ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
       <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
@@ -64,7 +68,7 @@ const Product = () => {
           </div>
           <p className="mt-5 text-3xl font-medium">
             {currency}
-            {productData.price}
+            {formatPrice(productData.price)}
           </p>
           <p className="mt-5 text-gray-500 md:4/5">{productData.description}</p>
           <div className="flex flex-col gap-4 my-8">
