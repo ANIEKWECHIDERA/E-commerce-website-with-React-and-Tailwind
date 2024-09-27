@@ -86,7 +86,7 @@ const UserProfile = () => {
               Order History
             </p>
             <p
-              className="text-gray-500 hover:text-gray-900 cursor-pointer mb-3"
+              className="hidden text-gray-500 hover:text-gray-900 cursor-pointer mb-3"
               onClick={() => handleOptionClick("saved")}
             >
               Saved Items
