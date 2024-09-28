@@ -143,7 +143,7 @@ const AdminPage = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-6 overflow-y-scroll">
+      <main className="flex-1 p-6 overflow-y-scroll scrollable ">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
             {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
