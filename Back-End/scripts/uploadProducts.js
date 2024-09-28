@@ -25,7 +25,7 @@ const uploadProducts = async () => {
   try {
     const products = await loadProducts();
     await Product.insertMany(products);
-    console.log("Products uploaded successfully");
+    // console.log("Products uploaded successfully")
   } catch (error) {
     console.error("Error uploading products:", error);
   } finally {

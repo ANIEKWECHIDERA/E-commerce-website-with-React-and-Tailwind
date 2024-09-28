@@ -147,7 +147,6 @@ const ShopContextProvider = (Props) => {
     let totalCount = 0;
 
     for (const items in cartItems) {
-      console.log(cartItems);
       for (const item in cartItems[items]) {
         try {
           if (cartItems[items][item] > 0) {

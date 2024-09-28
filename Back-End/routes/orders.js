@@ -127,7 +127,6 @@ router.patch("/patch/:orderId", async (req, res) => {
     res
       .status(200)
       .json({ message: "Order updated successfully", updatedOrder });
-    console.log(updatedOrder);
   } catch (error) {
     console.error(error);
     res

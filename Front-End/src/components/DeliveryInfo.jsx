@@ -93,14 +93,12 @@ const DeliveryInfo = () => {
         `http://localhost:5000/api/users/${userId}/delivery-info`
       );
 
-      console.log('Delivery info successfully updated:', response.data);
       alert('Delivery information has been successfully updated.');
 
       // Assuming fetchDeliveryInfo is a function that updates the UI with the latest delivery info
       fetchDeliveryInfo();
     } catch (error) {
       if (error.response) {
-        console.log(userId);
         console.error('Error response:', error.response.data);
       } else if (error.request) {
         console.error('Error request:', error.request);

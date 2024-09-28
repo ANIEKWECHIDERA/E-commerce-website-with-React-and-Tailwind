@@ -13,7 +13,6 @@ const FullBlogArticle = () => {
           `http://localhost:5000/api/blog/${id}`
         );
         setBlog(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching blog:', error);
       }
