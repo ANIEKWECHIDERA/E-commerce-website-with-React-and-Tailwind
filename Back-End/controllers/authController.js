@@ -125,7 +125,7 @@ exports.adminLogin = async (req, res) => {
 
     // If successful, generate a token for the admin session
     const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "30d",
     });
 
     res.status(200).json({ message: "Login successful", token });
