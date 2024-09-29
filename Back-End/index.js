@@ -11,7 +11,7 @@ const app = express();
 // Use CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://mophixconcept.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
