@@ -41,6 +41,7 @@ const PlaceOrder = () => {
         userId,
         totalPaid: totalAmount + deliveryFee,
         paymentMethod: method,
+        email: deliveryInfo.email,
         deliveryAddress: deliveryInfo.homeAddress,
         items: cartItems.map((item) => ({
           productId: item.productId,

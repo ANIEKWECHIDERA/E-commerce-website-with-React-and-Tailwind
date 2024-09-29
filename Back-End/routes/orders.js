@@ -6,6 +6,7 @@ const Order = require("../models/order");
 const User = require("../models/User");
 const auth = require("../middleware/auth");
 const Product = require("../models/product");
+const sendMail = require("../services/emailService");
 
 router.get("/all-orders", async (req, res) => {
   const { orderNumber, status, startDate, endDate } = req.query;
@@ -74,7 +75,8 @@ router.get("/:userId", auth, async (req, res) => {
 
 // Place a new order
 router.post("/", auth, async (req, res) => {
-  const { userId, totalPaid, paymentMethod, deliveryAddress, items } = req.body;
+  const { userId, totalPaid, paymentMethod, deliveryAddress, items, email } =
+    req.body;
   try {
     const newOrder = new Order({
       userId,
@@ -85,6 +87,25 @@ router.post("/", auth, async (req, res) => {
       isNew: true,
     });
     await newOrder.save();
+
+    if (email) {
+      // Map the order items with correct details
+      const orderDetails = await Promise.all(
+        items.map(async (item) => {
+          const product = await Product.findById(item.productId);
+
+          return {
+            name: product ? product.name : "Product", // Use product name if available
+            quantity: item.quantity,
+            price: item.price,
+            size: item.size,
+          };
+        })
+      );
+
+      // Send order confirmation email with order details and delivery address
+      sendMail(email, orderDetails, deliveryAddress, totalPaid);
+    }
     res.status(201).json(newOrder);
   } catch (error) {
     res.status(500).json({ message: error.message });
