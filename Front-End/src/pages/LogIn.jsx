@@ -33,7 +33,7 @@ const LogIn = () => {
       if (currentState === "Sign Up") {
         //implement registration logic here
         const response = await axios.post(
-          "http://localhost:5000/api/auth/register",
+          "https://e-commerce-website-with-react-and.onrender.com/api/auth/register",
           { ...formData, email: formData.email || generateRandomEmail() }
         );
         localStorage.setItem("token", response.data.token);
@@ -49,7 +49,7 @@ const LogIn = () => {
       } else {
         //implement login logic here
         const response = await axios.post(
-          "http://localhost:5000/api/auth/login",
+          "https://e-commerce-website-with-react-and.onrender.com/api/auth/login",
           {
             email: formData.email || null,
             phoneNumber: formData.phoneNumber,

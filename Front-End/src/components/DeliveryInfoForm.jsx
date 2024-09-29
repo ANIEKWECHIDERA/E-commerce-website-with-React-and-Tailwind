@@ -20,9 +20,12 @@ const DeliveryInfoForm = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await axios.get('http://localhost:5000/api/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        'https://e-commerce-website-with-react-and.onrender.com/api/profile',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setUserId(response.data._id);
     } catch (err) {
@@ -42,7 +45,7 @@ const DeliveryInfoForm = () => {
       const fetchDeliveryInfo = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/users/${userId}/delivery-info`
+            `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`
           );
           setFormData(response.data.deliveryInfo || formData); // Use existing formData if deliveryInfo is undefined
         } catch (error) {
@@ -67,7 +70,7 @@ const DeliveryInfoForm = () => {
     e.preventDefault();
     try {
       await axios.post(
-        `http://localhost:5000/api/users/${userId}/delivery-info`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`,
         {
           deliveryInfo: formData,
         }

@@ -24,7 +24,7 @@ const PlaceOrder = () => {
       const userId = await fetchUserId();
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}/delivery-info`
+          `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`
         );
         setDeliveryInfo(response.data.deliveryInfo);
       } catch (error) {
@@ -51,9 +51,13 @@ const PlaceOrder = () => {
         })),
       };
 
-      await axios.post("http://localhost:5000/api/orders", order, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      await axios.post(
+        "https://e-commerce-website-with-react-and.onrender.com/api/orders",
+        order,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       toast.success("Order placed successfully!");
       // add code to Clear cart after successful order
       clearCart();

@@ -14,7 +14,9 @@ const OverView = () => {
   useEffect(() => {
     const fetchOverviewData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/overview');
+        const response = await axios.get(
+          'https://e-commerce-website-with-react-and.onrender.com/api/overview'
+        );
         setData(response.data);
       } catch (err) {
         console.error(err);

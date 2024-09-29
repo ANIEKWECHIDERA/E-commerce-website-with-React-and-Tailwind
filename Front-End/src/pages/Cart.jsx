@@ -20,11 +20,14 @@ const Cart = () => {
     const fetchCartData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCartData(response.data);
 
         setIsCartEmpty(response.data.length === 0);
@@ -42,7 +45,7 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:5000/api/cart/cart-qty",
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart/cart-qty",
         {
           productId,
           quantity,
@@ -55,11 +58,14 @@ const Cart = () => {
           },
         }
       );
-      const response = await axios.get("http://localhost:5000/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       await fetchCartCount();
       setCartData(response.data);
 
@@ -74,17 +80,23 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete("http://localhost:5000/api/cart/remove", {
-        data: { cartId: cartItemId },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const response = await axios.get("http://localhost:5000/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart/remove",
+        {
+          data: { cartId: cartItemId },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       await fetchCartCount();
       setCartData(response.data);
       setIsCartEmpty(response.data.length === 0);

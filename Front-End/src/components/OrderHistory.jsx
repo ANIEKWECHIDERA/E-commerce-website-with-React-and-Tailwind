@@ -13,7 +13,7 @@ const OrderHistory = () => {
       const userId = await fetchUserId();
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/orders/${userId}`,
+          `https://e-commerce-website-with-react-and.onrender.com/api/orders/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,

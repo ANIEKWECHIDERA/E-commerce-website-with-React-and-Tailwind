@@ -4,11 +4,14 @@ import axios from "axios";
 const getCartCount = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:5000/api/cart", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     // The response data should be an array of cart items
     const cartItems = response.data || [];

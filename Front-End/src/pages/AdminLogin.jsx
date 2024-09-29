@@ -16,7 +16,7 @@ const AdminLogin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/admin/login",
+        "https://e-commerce-website-with-react-and.onrender.com/api/auth/admin/login",
         {
           username,
           password,

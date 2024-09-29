@@ -15,9 +15,12 @@ const DeliveryInfo = () => {
   const fetchUserId = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        'https://e-commerce-website-with-react-and.onrender.com/api/profile',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUserId(response.data._id);
     } catch (err) {
       setError(err);
@@ -31,7 +34,7 @@ const DeliveryInfo = () => {
     if (!userId) return;
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/users/${userId}/delivery-info`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
@@ -67,7 +70,7 @@ const DeliveryInfo = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/users/${userId}/delivery-info`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`,
 
         {
           deliveryInfo: formData,
@@ -90,7 +93,7 @@ const DeliveryInfo = () => {
     try {
       // Sending a PUT request to update delivery info
       const response = await axios.put(
-        `http://localhost:5000/api/users/${userId}/delivery-info`
+        `https://e-commerce-website-with-react-and.onrender.com/api/users/${userId}/delivery-info`
       );
 
       alert('Delivery information has been successfully updated.');

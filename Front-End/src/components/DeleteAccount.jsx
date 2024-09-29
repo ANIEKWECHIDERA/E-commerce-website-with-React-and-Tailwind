@@ -20,7 +20,7 @@ const DeleteAccount = () => {
     try {
       // Verify the password
       const response = await axios.post(
-        'http://localhost:5000/api/verify-password',
+        'https://e-commerce-website-with-react-and.onrender.com/api/verify-password',
         {
           phoneNumber,
           password,
@@ -48,7 +48,7 @@ const DeleteAccount = () => {
   const handleConfirmDelete = async () => {
     try {
       const response = await axios.delete(
-        'http://localhost:5000/api/delete-account',
+        'https://e-commerce-website-with-react-and.onrender.com/api/delete-account',
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           data: { phoneNumber, password },

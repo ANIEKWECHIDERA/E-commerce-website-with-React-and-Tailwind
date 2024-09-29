@@ -21,9 +21,12 @@ const UserProfileForm = () => {
       try {
         const token = localStorage.getItem('token');
 
-        const response = await axios.get('http://localhost:5000/api/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          'https://e-commerce-website-with-react-and.onrender.com/api/profile',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setFormData(prevData => ({
           ...prevData,
           ...response.data,
@@ -45,7 +48,7 @@ const UserProfileForm = () => {
       const token = localStorage.getItem('token');
 
       const response = await axios.put(
-        'http://localhost:5000/api/profile',
+        'https://e-commerce-website-with-react-and.onrender.com/api/profile',
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

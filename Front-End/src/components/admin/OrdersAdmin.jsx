@@ -18,7 +18,7 @@ const OrdersAdmin = ({ setNewOrdersCount }) => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/orders/all-orders',
+          'https://e-commerce-website-with-react-and.onrender.com/api/orders/all-orders',
           {
             params: {
               orderNumber: searchTerm,
@@ -59,9 +59,12 @@ const OrdersAdmin = ({ setNewOrdersCount }) => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.patch(`http://localhost:5000/api/orders/patch/${orderId}`, {
-        status: newStatus,
-      });
+      await axios.patch(
+        `https://e-commerce-website-with-react-and.onrender.com/api/orders/patch/${orderId}`,
+        {
+          status: newStatus,
+        }
+      );
     } catch (error) {
       console.error('Error updating order:', error);
     }
@@ -84,7 +87,7 @@ const OrdersAdmin = ({ setNewOrdersCount }) => {
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:5000/api/orders/delete/${orderId}`
+          `https://e-commerce-website-with-react-and.onrender.com/api/orders/delete/${orderId}`
         );
         setOrders(orders.filter(order => order._id !== orderId));
       } catch (error) {

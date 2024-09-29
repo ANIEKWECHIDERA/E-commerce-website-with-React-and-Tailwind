@@ -68,7 +68,9 @@ const BlogAdmin = () => {
   const fetchPosts = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/blogs');
+      const response = await axios.get(
+        'https://e-commerce-website-with-react-and.onrender.com/api/blogs'
+      );
       const sortedPosts = response.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
@@ -106,7 +108,10 @@ const BlogAdmin = () => {
       setIsLoading(true);
 
       try {
-        await axios.post('http://localhost:5000/api/blog', formData);
+        await axios.post(
+          'https://e-commerce-website-with-react-and.onrender.com/api/blog',
+          formData
+        );
         setIsLoading(false);
         toast.success('Post successfully added!');
         fetchPosts();
@@ -147,7 +152,7 @@ const BlogAdmin = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/blog/${posts[currentPost]._id}`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/blog/${posts[currentPost]._id}`,
         formData
       );
       toast.success('Post successfully updated!');
@@ -164,7 +169,7 @@ const BlogAdmin = () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         await axios.delete(
-          `http://localhost:5000/api/blog/${posts[index]._id}`
+          `https://e-commerce-website-with-react-and.onrender.com/api/blog/${posts[index]._id}`
         );
         setPosts(posts.filter((_, i) => i !== index));
         toast.info('Post successfully deleted!');

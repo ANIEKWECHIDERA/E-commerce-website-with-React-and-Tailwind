@@ -10,7 +10,7 @@ const FullBlogArticle = () => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/blog/${id}`
+          `https://e-commerce-website-with-react-and.onrender.com/api/blog/${id}`
         );
         setBlog(response.data);
       } catch (error) {

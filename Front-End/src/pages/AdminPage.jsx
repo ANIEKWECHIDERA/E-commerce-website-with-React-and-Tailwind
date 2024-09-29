@@ -52,7 +52,7 @@ const AdminPage = () => {
 
         // Call API to verify token
         const response = await fetch(
-          "http://localhost:5000/api/verify-token/admin",
+          "https://e-commerce-website-with-react-and.onrender.com/api/verify-token/admin",
           {
             headers: {
               Authorization: `Bearer ${token}`,

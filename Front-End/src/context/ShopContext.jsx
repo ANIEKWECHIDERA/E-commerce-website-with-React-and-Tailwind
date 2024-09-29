@@ -18,7 +18,9 @@ const ShopContextProvider = (Props) => {
   const [lastName, setLastName] = useState({ lastName: "" });
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/products/all");
+      const response = await fetch(
+        "https://e-commerce-website-with-react-and.onrender.com/api/products/all"
+      );
       const data = await response.json();
 
       setProducts(data); // Store products in state
@@ -29,11 +31,14 @@ const ShopContextProvider = (Props) => {
 
   const fetchCartCount = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/cartCount", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cartCount",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setCartCount(response.data.count);
     } catch (error) {
@@ -43,11 +48,14 @@ const ShopContextProvider = (Props) => {
 
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/cart", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const fetchedCartItems = response.data || [];
       setCartItems(fetchedCartItems);
 
@@ -68,9 +76,12 @@ const ShopContextProvider = (Props) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setLastName({ lastName: response.data.lastName });
     } catch (error) {
       console.error(error);
@@ -111,7 +122,7 @@ const ShopContextProvider = (Props) => {
     // Send data to the backend
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart/add",
         {
           productId: itemId,
           size,
@@ -126,11 +137,14 @@ const ShopContextProvider = (Props) => {
       );
 
       // Update cart count after adding item
-      const response = await axios.get("http://localhost:5000/api/cartCount", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cartCount",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       setCartCount(response.data.count);
 
       // Axios automatically parses the JSON response
@@ -167,7 +181,7 @@ const ShopContextProvider = (Props) => {
     // Send updated cart data to the backend
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/update",
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart/update",
         {
           productId: itemId,
           size,
@@ -206,9 +220,12 @@ const ShopContextProvider = (Props) => {
   const fetchUserId = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data._id;
     } catch (err) {
       setError(err);
@@ -221,18 +238,24 @@ const ShopContextProvider = (Props) => {
       const token = localStorage.getItem("token");
 
       // Send request to clear the cart
-      await axios.delete("http://localhost:5000/api/cart/clear", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart/clear",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       // Optionally, fetch the updated cart data to reflect the changes in the UI
-      const response = await axios.get("http://localhost:5000/api/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://e-commerce-website-with-react-and.onrender.com/api/cart",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setCartItems(response.data);
     } catch (error) {

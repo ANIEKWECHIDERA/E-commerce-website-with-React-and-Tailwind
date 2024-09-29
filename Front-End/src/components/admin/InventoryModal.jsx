@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, product, onSave }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/edit/${product._id}`,
+          `https://e-commerce-website-with-react-and.onrender.com/api/products/edit/${product._id}`,
           {
             method: 'PUT',
             body: formData,

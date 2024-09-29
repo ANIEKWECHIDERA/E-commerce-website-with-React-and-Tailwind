@@ -17,7 +17,9 @@ const Inventory = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('http://localhost:5000/api/products/all');
+        const response = await fetch(
+          'https://e-commerce-website-with-react-and.onrender.com/api/products/all'
+        );
         const data = await response.json();
         const sortedData = data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
@@ -34,7 +36,7 @@ const Inventory = () => {
   const handleSave = async updatedProduct => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products/edit/${updatedProduct._id}`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/products/edit/${updatedProduct._id}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -64,7 +66,7 @@ const Inventory = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/delete/${id}`,
+          `https://e-commerce-website-with-react-and.onrender.com/api/products/delete/${id}`,
           {
             method: 'DELETE',
           }

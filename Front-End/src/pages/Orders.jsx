@@ -13,7 +13,7 @@ const Order = () => {
   const fetchProductDetails = async (productId) => {
     const token = localStorage.getItem("token");
     const response = await axios.get(
-      `http://localhost:5000/api/products/${productId}`,
+      `https://e-commerce-website-with-react-and.onrender.com/api/products/${productId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ const Order = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/orders/${userId}`,
+        `https://e-commerce-website-with-react-and.onrender.com/api/orders/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
