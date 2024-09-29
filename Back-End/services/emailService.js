@@ -84,7 +84,7 @@ const sendMail = (recipient, orderDetails, deliveryAddress) => {
 
         <p style="text-align: center; margin-top: 30px">
           <a
-            href="https://mophixconcept.com"
+            href="https://mophixconcept.onrender.com/"
             style="
               background-color: #000000;
               color: white;
