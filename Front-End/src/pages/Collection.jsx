@@ -96,7 +96,11 @@ const Collection = () => {
   }, [sortType]);
 
   return (
-    <div className="sm:mt-40 flex flex-col sm:flex-row gap-1 sm:gap-10 pt-2 border-t">
+    <div
+      className={`${
+        showSearch === true ? "sm:mt-10" : "sm:mt-40"
+      } flex flex-col sm:flex-row gap-1 sm:gap-10 pt-2 border-t`}
+    >
       {/* Filter Options */}
       <div className="min-w-60 sm:sticky top-20 h-full bg-white ">
         <p
@@ -110,7 +114,7 @@ const Collection = () => {
             alt=""
           />
         </p>
-        {/* Category Filter */}
+        {/* Category Flter */}
         <div
           className={`border border-gray-300 pl-5 py-3 mt-6 ${
             showFilter ? "" : "hidden"

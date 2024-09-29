@@ -112,6 +112,8 @@ const BlogAdmin = () => {
         fetchPosts();
         setCurrentPost(null);
       } catch (error) {
+        setIsLoading(false);
+        console.error(error);
         toast.error('Error adding post.');
       }
     }

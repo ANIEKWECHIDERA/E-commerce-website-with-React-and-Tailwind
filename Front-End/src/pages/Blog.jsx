@@ -214,10 +214,6 @@ const Blog = () => {
           </button>
         ))}
       </div>
-
-      <div className="sm:mt-32 w-full py-8">
-        <NewsLetterBox />
-      </div>
     </div>
   );
 };

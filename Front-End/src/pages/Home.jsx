@@ -12,7 +12,6 @@ const Home = () => {
       <LatestCollection />
       <BestSeller />
       <OurPolicy />
-      <NewsLetterBox />
     </div>
   );
 };
