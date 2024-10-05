@@ -26,8 +26,10 @@ const NavBar = () => {
       setActive('about');
     } else if (currentPath.includes('blog')) {
       setActive('blog');
-    } else {
+    } else if (currentPath.includes('contact')) {
       setActive('contact');
+    } else {
+      setActive('');
     }
   }, [location.pathname]);
 
