@@ -18,11 +18,14 @@ const LatestCollection = () => {
       <div className="text-center py-8 text-3xl">
         <Title text1={'LATEST'} text2={'COLLECTIONS'} />
         <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum
-          saepe ad sunt adipisci iusto. Odio dolore dolor minima veniam
-          suscipit.
+          Discover our latest collections of men's suits, blazers, and
+          accessories. Each piece is meticulously designed to combine timeless
+          elegance with modern style. Whether you're dressing for a special
+          occasion or upgrading your everyday look, our new arrivals will help
+          you stand out with confidence.
         </p>
       </div>
+
       {/* render productItems here */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-col-5 gap-4 gap-y-6">
         {latestProducts.map((item, index) => (

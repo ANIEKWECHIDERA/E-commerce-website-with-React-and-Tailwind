@@ -7,17 +7,19 @@ const Footer = () => {
     <div>
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 tex-sm ">
         <div>
-          <img src={assets.logo} alt="logo" className="mb-5 w-32" />
+          <img src={assets.logo} alt="Company Logo" className="mb-5 w-32" />
           <p className="w-full md:w-2/3 text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-            illo vero neque. Placeat at iste eligendi ut! Facilis esse dolore in
-            modi, totam distinctio eligendi, quis laborum, illum dolorum
-            repellat.
+            At Mophix Concept, we are dedicated to providing high-quality men's
+            suits and accessories that elevate your style for any occasion. With
+            a commitment to craftsmanship and customer satisfaction, we strive
+            to deliver exceptional products and an effortless shopping
+            experience. Join us in redefining men's fashion!
           </p>
         </div>
+
         <div>
           <p className="text-xl font-medium mb-5">COMPANY</p>
-          <ul className="flex flex-col gap-1 text-gray-600">
+          <ul className="flex flex-col gap-7 text-gray-600">
             <Link
               to="/"
               onClick={() => {

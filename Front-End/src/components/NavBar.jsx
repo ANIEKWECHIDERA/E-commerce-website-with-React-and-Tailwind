@@ -1,13 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { assets } from '../assets/assets';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 
 const NavBar = () => {
   const [visible, setVisible] = useState(false);
   const { setShowSearch, cartCount, lastName } = useContext(ShopContext);
   const navigate = useNavigate();
+  const [active, setActive] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract the pathname from the location object
+    const currentPath = location.pathname;
+
+    // Set the active state based on the current path
+    if (currentPath === '/') {
+      setActive('home');
+    } else if (currentPath.includes('collection')) {
+      setActive('collection');
+    } else if (currentPath.includes('blog')) {
+      setActive('blog');
+    } else if (currentPath.includes('about')) {
+      setActive('about');
+    } else if (currentPath.includes('blog')) {
+      setActive('blog');
+    } else {
+      setActive('contact');
+    }
+  }, [location.pathname]);
 
   async function logout() {
     try {
@@ -37,22 +59,59 @@ const NavBar = () => {
           </Link>
 
           <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
-            <NavLink to="/" className="flex flex-col items-center gap-1">
+            <NavLink
+              onClick={() => setActive('home')}
+              to="/"
+              className={`flex flex-col items-center gap-1 ${
+                active === 'home'
+                  ? 'text-gray-950 underline underline-offset-4'
+                  : ''
+              }`}
+            >
               <p>Home</p>
             </NavLink>
             <NavLink
+              onClick={() => setActive('collection')}
               to="/collection"
-              className="flex flex-col items-center gap-1"
+              className={`flex flex-col items-center gap-1 ${
+                active === 'collection'
+                  ? 'text-gray-950 underline underline-offset-4'
+                  : ''
+              }`}
             >
               <p>Collection</p>
             </NavLink>
-            <NavLink to="/blog" className="flex flex-col items-center gap-1">
+            <NavLink
+              onClick={() => setActive('blog')}
+              to="/blog"
+              className={`flex flex-col items-center gap-1 ${
+                active === 'blog'
+                  ? 'text-gray-950 underline underline-offset-4'
+                  : ''
+              }`}
+            >
               <p>Blog</p>
             </NavLink>
-            <NavLink to="/about" className="flex flex-col items-center gap-1">
+            <NavLink
+              onClick={() => setActive('about')}
+              to="/about"
+              className={`flex flex-col items-center gap-1 ${
+                active === 'about'
+                  ? 'text-gray-950 underline underline-offset-4'
+                  : ''
+              }`}
+            >
               <p>About</p>
             </NavLink>
-            <NavLink to="/contact" className="flex flex-col items-center gap-1">
+            <NavLink
+              onClick={() => setActive('contact')}
+              to="/contact"
+              className={`flex flex-col items-center gap-1 ${
+                active === 'contact'
+                  ? 'text-gray-950 underline underline-offset-4'
+                  : ''
+              }`}
+            >
               <p>Contact</p>
             </NavLink>
           </ul>
